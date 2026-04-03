@@ -68,7 +68,7 @@ export default function Home() {
                 >
                   <Button
                     size="lg"
-                    variant="secondary"
+                    
                     className="w-full rounded-xl font-bold shadow-md shadow-indigo-100
                       bg-gradient-to-r from-indigo-500 to-violet-500
                       hover:opacity-90 text-white transition-all duration-200"
