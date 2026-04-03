@@ -14,8 +14,8 @@ export const UnitBanner = ({
 }: Props) => {
   return (
     <div className="w-full rounded-2xl p-6 flex items-center justify-between
-      bg-gradient-to-r from-indigo-500 to-violet-500
-      shadow-lg shadow-indigo-200/50
+      bg-gradient-to-r from-indigo-400/80 to-violet-400/80
+      shadow-md shadow-indigo-100/50
       relative overflow-hidden"
     >
       {/* Decorative circles */}
@@ -30,7 +30,7 @@ export const UnitBanner = ({
         <h3 className="text-2xl font-extrabold text-white tracking-tight">
           {title}
         </h3>
-        <p className="text-white/80 text-sm font-medium">
+        <p className="text-white/70 text-sm font-medium">
           {description}
         </p>
       </div>
@@ -42,9 +42,9 @@ export const UnitBanner = ({
           variant="secondary"
           className="hidden xl:flex items-center gap-x-2
             bg-white/20 hover:bg-white/30 backdrop-blur-sm
-            text-white font-bold border border-white/30
+            text-white font-bold border border-white/20
             rounded-xl transition-all duration-200
-            shadow-md active:scale-95"
+            shadow-sm active:scale-95"
         >
           <NotebookText className="h-5 w-5" />
           Continue
