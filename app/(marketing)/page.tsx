@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { Loader } from "lucide-react";
-import { 
-  ClerkLoaded, 
-  ClerkLoading, 
-  SignInButton, 
-  SignUpButton, 
-  SignedIn, 
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
   SignedOut
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -13,49 +13,104 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="max-w-[988px] mx-auto flex-1 w-full flex flex-col lg:flex-row items-center justify-center p-4 gap-2">
-      <div className="relative w-[240px] h-[240px] lg:w-[424px] lg:h-[424px] mb-8 lg:mb-0">
-        <Image src="/hero.svg" fill alt="Hero" />
-      </div>
-      <div className="flex flex-col items-center gap-y-8">
-        <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
-          Learn, practice, and master new languages with Learnly.
-        </h1>
-        <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
-          <ClerkLoading>
-            <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
-          </ClerkLoading>
-          <ClerkLoaded>
-            <SignedOut>
-              <SignUpButton
-                mode="modal"
-                afterSignInUrl="/learn"
-                afterSignUpUrl="/learn"
-              >
-                <Button size="lg" variant="secondary" className="w-full">
-                  Get Started
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden
+      bg-gradient-to-br from-slate-50 via-white to-indigo-50/40"
+    >
+      {/* Decorative blobs */}
+      <div className="absolute top-[-80px] left-[-80px] w-[340px] h-[340px] rounded-full
+        bg-indigo-100/60 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full
+        bg-violet-100/50 blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-[988px] mx-auto flex-1 w-full flex flex-col lg:flex-row
+        items-center justify-center p-6 gap-8 lg:gap-16 z-10"
+      >
+
+        {/* Hero illustration */}
+        <div className="relative w-[220px] h-[220px] lg:w-[420px] lg:h-[420px] mb-4 lg:mb-0 shrink-0">
+          <div className="absolute inset-0 bg-indigo-200/30 rounded-full blur-2xl scale-110" />
+          <Image src="/hero.svg" fill alt="Hero" className="relative drop-shadow-xl" />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col items-center lg:items-start gap-y-8">
+
+          {/* Text */}
+          <div className="space-y-3 text-center lg:text-left">
+            <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400">
+              Welcome to Learnly
+            </p>
+            <h1 className="text-3xl lg:text-5xl font-extrabold text-slate-800
+              tracking-tight leading-tight max-w-[480px]"
+            >
+              Learn, practice, and{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">
+                master
+              </span>{" "}
+              new skills with Learnly.
+            </h1>
+            <p className="text-slate-400 text-sm lg:text-base font-medium max-w-[380px]">
+              Join thousands of learners and start your journey today — for free.
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col items-center gap-y-3 w-full max-w-[330px]">
+            <ClerkLoading>
+              <Loader className="h-5 w-5 text-indigo-300 animate-spin" />
+            </ClerkLoading>
+            <ClerkLoaded>
+              <SignedOut>
+                <SignUpButton
+                  mode="modal"
+                  afterSignInUrl="/learn"
+                  afterSignUpUrl="/learn"
+                >
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="w-full rounded-xl font-bold shadow-md shadow-indigo-100
+                      bg-gradient-to-r from-indigo-500 to-violet-500
+                      hover:opacity-90 text-white transition-all duration-200"
+                  >
+                    Get Started — it&apos;s free
+                  </Button>
+                </SignUpButton>
+                <SignInButton
+                  mode="modal"
+                  afterSignInUrl="/learn"
+                  afterSignUpUrl="/learn"
+                >
+                  <Button
+                    size="lg"
+                    variant="primaryOutline"
+                    className="w-full rounded-xl font-semibold border-slate-200
+                      text-slate-500 hover:bg-slate-50 transition-all duration-200"
+                  >
+                    I already have an account
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <Button
+                  size="lg"
+                  
+                  className="w-full rounded-xl font-bold
+                    bg-gradient-to-r from-indigo-500 to-violet-500
+                    hover:opacity-90 text-white shadow-md shadow-indigo-200
+                    transition-all duration-200"
+                  asChild
+                >
+                  <Link href="/learn">
+                    Continue Learning →
+                  </Link>
                 </Button>
-              </SignUpButton>
-              <SignInButton
-                mode="modal"
-                afterSignInUrl="/learn"
-                afterSignUpUrl="/learn"
-              >
-                <Button size="lg" variant="primaryOutline" className="w-full">
-                  I already have an account
-                </Button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <Button size="lg" variant="primary" className="w-full" asChild>
-                <Link href="/learn">
-                  Continue Learning
-                </Link>
-              </Button>
-            </SignedIn>
-          </ClerkLoaded>
+              </SignedIn>
+            </ClerkLoaded>
+          </div>
+
         </div>
       </div>
     </div>
-  )
+  );
 }

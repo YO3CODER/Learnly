@@ -52,9 +52,9 @@ export const LessonButton = ({
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
 
   return (
-    <Link 
-      href={href} 
-      aria-disabled={locked} 
+    <Link
+      href={href}
+      aria-disabled={locked}
       style={{ pointerEvents: locked ? "none" : "auto" }}
     >
       <div
@@ -66,34 +66,58 @@ export const LessonButton = ({
       >
         {current ? (
           <div className="h-[102px] w-[102px] relative">
-            <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+
+            {/* Start badge */}
+            <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10
+              px-3 py-1.5 rounded-xl
+              bg-gradient-to-r from-indigo-500 to-violet-500
+              text-white text-xs font-extrabold uppercase tracking-widest
+              shadow-lg shadow-indigo-200
+              animate-bounce whitespace-nowrap"
+            >
               Start
-              <div
-                className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2"
+              <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2
+                w-0 h-0
+                border-x-[6px] border-x-transparent
+                border-t-[6px] border-t-violet-500"
               />
             </div>
+
             <CircularProgressbarWithChildren
               value={Number.isNaN(percentage) ? 0 : percentage}
               styles={{
                 path: {
-                  stroke: "#4ade80",
+                  stroke: "url(#progressGradient)",
+                  strokeLinecap: "round",
                 },
                 trail: {
-                  stroke: "#e5e7eb",
+                  stroke: "#e8e8f0",
                 },
               }}
             >
+              <svg style={{ height: 0, width: 0, position: "absolute" }}>
+                <defs>
+                  <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#6366f1" />
+                    <stop offset="100%" stopColor="#8b5cf6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
               <Button
                 size="rounded"
                 variant={locked ? "locked" : "secondary"}
-                className="h-[70px] w-[70px] border-b-8"
+                className={cn(
+                  "h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
+                  !locked && "!bg-indigo-500 hover:!bg-indigo-600 !border-b-indigo-700 shadow-lg shadow-indigo-100",
+                )}
               >
                 <Icon
                   className={cn(
-                    "h-10 w-10",
+                    "h-9 w-9",
                     locked
-                    ? "fill-neutral-400 text-neutral-400 stroke-neutral-400"
-                    : "fill-primary-foreground text-primary-foreground",
+                      ? "fill-neutral-300 text-neutral-300 stroke-neutral-300"
+                      : "fill-white text-white",
                     isCompleted && "fill-none stroke-[4]"
                   )}
                 />
@@ -101,21 +125,30 @@ export const LessonButton = ({
             </CircularProgressbarWithChildren>
           </div>
         ) : (
-          <Button
-            size="rounded"
-            variant={locked ? "locked" : "secondary"}
-            className="h-[70px] w-[70px] border-b-8"
-          >
-            <Icon
+          <div className="relative group">
+            {isCompleted && (
+              <div className="absolute inset-0 rounded-full bg-indigo-300/30 blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            )}
+            <Button
+              size="rounded"
+              variant={locked ? "locked" : "secondary"}
               className={cn(
-                "h-10 w-10",
-                locked
-                ? "fill-neutral-400 text-neutral-400 stroke-neutral-400"
-                : "fill-primary-foreground text-primary-foreground",
-                isCompleted && "fill-none stroke-[4]"
+                "relative h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
+                !locked && "!bg-indigo-500 hover:!bg-indigo-600 !border-b-indigo-700 shadow-md shadow-indigo-100",
+                isCompleted && "!bg-indigo-400 !border-b-indigo-600",
               )}
-            />
-          </Button>
+            >
+              <Icon
+                className={cn(
+                  "h-9 w-9",
+                  locked
+                    ? "fill-neutral-300 text-neutral-300 stroke-neutral-300"
+                    : "fill-white text-white",
+                  isCompleted && "fill-none stroke-white stroke-[4]"
+                )}
+              />
+            </Button>
+          </div>
         )}
       </div>
     </Link>

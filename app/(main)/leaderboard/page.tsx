@@ -10,7 +10,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Promo } from "@/components/promo";
 import { Quests } from "@/components/quests";
 
-const LearderboardPage = async () => {
+const LeaderboardPage = async () => {
   const userProgressData = getUserProgress();
   const userSubscriptionData = getUserSubscription();
   const leaderboardData = getTopTenUsers();
@@ -31,7 +31,9 @@ const LearderboardPage = async () => {
 
   const isPro = !!userSubscription?.isActive;
 
-  return ( 
+  const medalColors = ["🥇", "🥈", "🥉"];
+
+  return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
         <UserProgress
@@ -40,52 +42,96 @@ const LearderboardPage = async () => {
           points={userProgress.points}
           hasActiveSubscription={isPro}
         />
-        {!isPro && (
-          <Promo />
-        )}
+        {!isPro && <Promo />}
         <Quests points={userProgress.points} />
       </StickyWrapper>
+
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">
-          <Image
-            src="/leaderboard.svg"
-            alt="Leaderboard"
-            height={90}
-            width={90}
-          />
-          <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-            Leaderboard
-          </h1>
-          <p className="text-muted-foreground text-center text-lg mb-6">
+
+          {/* Header */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-indigo-200/30 rounded-full blur-xl scale-150" />
+            <Image
+              src="/leaderboard.svg"
+              alt="Leaderboard"
+              height={90}
+              width={90}
+              className="relative drop-shadow-md"
+            />
+          </div>
+
+          <div className="mt-4 mb-1 text-center">
+            <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400 mb-1">
+              Rankings
+            </p>
+            <h1 className="font-extrabold text-slate-800 text-3xl tracking-tight">
+              Leaderboard
+            </h1>
+          </div>
+          <p className="text-slate-400 text-center text-sm mb-6 max-w-sm">
             See where you stand among other learners in the community.
           </p>
-          <Separator className="mb-4 h-0.5 rounded-full" />
-          {leaderboard.map((userProgress, index) => (
-            <div 
-              key={userProgress.userId}
-              className="flex items-center w-full p-2 px-4 rounded-xl hover:bg-gray-200/50"
-            >
-              <p className="font-bold text-lime-700 mr-4">{index + 1}</p>
-              <Avatar
-                className="border bg-green-500 h-12 w-12 ml-3 mr-6"
-              >
-                <AvatarImage
-                  className="object-cover"
-                  src={userProgress.userImageSrc}
-                />
-              </Avatar>
-              <p className="font-bold text-neutral-800 flex-1">
-                {userProgress.userName}
-              </p>
-              <p className="text-muted-foreground">
-                {userProgress.points} XP
-              </p>
-            </div>
-          ))}
+
+          <div className="h-px w-full bg-gradient-to-r from-indigo-100 via-violet-100 to-transparent mb-6 rounded-full" />
+
+          {/* List */}
+          <div className="w-full space-y-2">
+            {leaderboard.map((userProgress, index) => {
+              const isTop3 = index < 3;
+
+              return (
+                <div
+                  key={userProgress.userId}
+                  className={`flex items-center w-full p-3 px-4 rounded-2xl
+                    transition-all duration-200 group
+                    ${isTop3
+                      ? "bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100"
+                      : "hover:bg-slate-50 border border-transparent"
+                    }`}
+                >
+                  {/* Rank */}
+                  <div className="w-8 flex items-center justify-center shrink-0">
+                    {isTop3 ? (
+                      <span className="text-xl">{medalColors[index]}</span>
+                    ) : (
+                      <span className="font-extrabold text-sm text-slate-400">
+                        {index + 1}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Avatar */}
+                  <Avatar className="h-11 w-11 ml-3 mr-4 border-2 border-white shadow-sm">
+                    <AvatarImage
+                      className="object-cover"
+                      src={userProgress.userImageSrc}
+                    />
+                  </Avatar>
+
+                  {/* Name */}
+                  <p className="font-bold text-slate-700 flex-1 text-sm">
+                    {userProgress.userName}
+                  </p>
+
+                  {/* XP */}
+                  <div className={`flex items-center gap-x-1.5 px-3 py-1 rounded-xl text-xs font-extrabold
+                    ${isTop3
+                      ? "bg-indigo-100 text-indigo-500"
+                      : "bg-slate-100 text-slate-400"
+                    }`}
+                  >
+                    <span>⚡</span>
+                    {userProgress.points} XP
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </FeedWrapper>
     </div>
   );
 };
- 
-export default LearderboardPage;
+
+export default LeaderboardPage;

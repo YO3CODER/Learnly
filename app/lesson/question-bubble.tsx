@@ -7,26 +7,41 @@ type Props = {
 export const QuestionBubble = ({ question }: Props) => {
   return (
     <div className="flex items-center gap-x-4 mb-6">
-      <Image
-        src="/mascot.svg"
-        alt="Mascot"
-        height={60}
-        width={60}
-        className="hidden lg:block"
-      />
-      <Image
-        src="/mascot.svg"
-        alt="Mascot"
-        height={40}
-        width={40}
-        className="block lg:hidden"
-      />
-      <div className="relative py-2 px-4 border-2 rounded-xl text-sm lg:text-base">
-        {question}
-        <div
-          className="absolute -left-3 top-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-y-1/2 rotate-90"
+
+      {/* Mascot */}
+      <div className="relative shrink-0">
+        <div className="absolute inset-0 bg-indigo-200/40 rounded-full blur-md scale-125" />
+        <Image
+          src="/mascot.svg"
+          alt="Mascot"
+          height={60}
+          width={60}
+          className="relative hidden lg:block drop-shadow-md"
+        />
+        <Image
+          src="/mascot.svg"
+          alt="Mascot"
+          height={40}
+          width={40}
+          className="relative block lg:hidden drop-shadow-md"
         />
       </div>
+
+      {/* Bubble */}
+      <div className="relative py-3 px-5
+        bg-white border border-slate-200
+        rounded-2xl shadow-sm
+        text-sm lg:text-base font-medium text-slate-700
+        max-w-lg"
+      >
+        {question}
+        {/* Arrow */}
+        <div className="absolute -left-2 top-1/2 -translate-y-1/2
+          w-3 h-3 bg-white border-l border-b border-slate-200
+          rotate-45"
+        />
+      </div>
+
     </div>
   );
 };

@@ -15,14 +15,33 @@ const CoursesPage = async () => {
   ]);
 
   return (
-    <div className="h-full max-w-[912px] px-3 mx-auto">
-      <h1 className="text-2xl font-bold text-neutral-700">
-        Language Courses
-      </h1>
-      <List
-        courses={courses}
-        activeCourseId={userProgress?.activeCourseId}
-      />
+    <div className="min-h-full bg-gradient-to-br from-slate-50 via-white to-indigo-50/30">
+      <div className="max-w-[912px] mx-auto px-6 py-10">
+
+        {/* Header */}
+        <div className="mb-10">
+          <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400 mb-2">
+            Explore
+          </p>
+          <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight leading-none">
+            All{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">
+              Courses
+            </span>
+          </h1>
+          <p className="mt-2 text-sm text-slate-400 font-medium">
+            Choose a subject and start learning at your own pace.
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-indigo-100 via-violet-100 to-transparent mb-10" />
+
+        <List
+          courses={courses}
+          activeCourseId={userProgress?.activeCourseId}
+        />
+      </div>
     </div>
   );
 };
