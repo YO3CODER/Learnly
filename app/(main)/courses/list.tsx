@@ -32,18 +32,39 @@ export const List = ({ courses, activeCourseId }: Props) => {
   };
 
   return (
-    <div className="pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
-      {courses.map((course) => (
-        <Card
-          key={course.id}
-          id={course.id}
-          title={course.title}
-          imageSrc={course.imageSrc}
-          onClick={onClick}
-          disabled={pending}
-          active={course.id === activeCourseId}
-        />
-      ))}
+    <div className="pt-6 px-4 sm:px-6 lg:px-8">
+      <div className="
+        grid 
+        gap-4 
+        auto-rows-auto
+        
+        /* Mobile (1 colonne) */
+        grid-cols-1
+        
+        /* Tablet (2 colonnes) */
+        sm:grid-cols-2
+        
+        /* Desktop (3 colonnes) */
+        lg:grid-cols-3
+        
+        /* Large Desktop (4 colonnes) */
+        xl:grid-cols-4
+        
+        /* Très grand écran (auto) */
+        2xl:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]
+      ">
+        {courses.map((course) => (
+          <Card
+            key={course.id}
+            id={course.id}
+            title={course.title}
+            imageSrc={course.imageSrc}
+            onClick={onClick}
+            disabled={pending}
+            active={course.id === activeCourseId}
+          />
+        ))}
+      </div>
     </div>
   );
 };
