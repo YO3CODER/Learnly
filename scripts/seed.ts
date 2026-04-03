@@ -10,8 +10,9 @@ const db = drizzle(sql, { schema });
 
 const main = async () => {
   try {
-    console.log("Seeding database");
+    console.log("🌱 Seeding database...");
 
+    // Reset des tables
     await db.delete(schema.courses);
     await db.delete(schema.userProgress);
     await db.delete(schema.units);
@@ -21,194 +22,89 @@ const main = async () => {
     await db.delete(schema.challengeProgress);
     await db.delete(schema.userSubscription);
 
+    // 1. Ajout du cours Maths
     await db.insert(schema.courses).values([
       {
         id: 1,
-        title: "Spanish",
-        imageSrc: "/es.svg",
-      },
-      {
-        id: 2,
-        title: "Italian",
-        imageSrc: "/it.svg",
-      },
-      {
-        id: 3,
-        title: "French",
-        imageSrc: "/fr.svg",
-      },
-      {
-        id: 4,
-        title: "Croatian",
-        imageSrc: "/hr.svg",
+        title: "Mathematics",
+        imageSrc: "/math.svg",
       },
     ]);
 
+    // 2. Ajout de l'unité
     await db.insert(schema.units).values([
       {
         id: 1,
-        courseId: 1, // Spanish
-        title: "Unit 1",
-        description: "Learn the basics of Spanish",
+        courseId: 1,
+        title: "Calculs de base",
+        description: "Apprends à résoudre des équations simples",
         order: 1,
-      }
+      },
     ]);
 
+    // 3. Ajout des leçons
     await db.insert(schema.lessons).values([
       {
         id: 1,
-        unitId: 1, // Unit 1 (Learn the basics...)
+        unitId: 1,
         order: 1,
-        title: "Nouns",
-      },
-      {
-        id: 2,
-        unitId: 1, // Unit 1 (Learn the basics...)
-        order: 2,
-        title: "Verbs",
-      },
-      {
-        id: 3,
-        unitId: 1, // Unit 1 (Learn the basics...)
-        order: 3,
-        title: "Verbs",
-      },
-      {
-        id: 4,
-        unitId: 1, // Unit 1 (Learn the basics...)
-        order: 4,
-        title: "Verbs",
-      },
-      {
-        id: 5,
-        unitId: 1, // Unit 1 (Learn the basics...)
-        order: 5,
-        title: "Verbs",
+        title: "Les nombres 1, 2 et 3",
       },
     ]);
 
+    // 4. Ajout des challenges
     await db.insert(schema.challenges).values([
       {
         id: 1,
-        lessonId: 1, // Nouns
-        type: "SELECT",
+        lessonId: 1,
+        type: "ASSIST",
         order: 1,
-        question: 'Which one of these is the "the man"?',
+        question: "Combien font 1 + 1 ?",
       },
       {
         id: 2,
-        lessonId: 1, // Nouns
+        lessonId: 1,
         type: "ASSIST",
         order: 2,
-        question: '"the man"',
+        question: "Combien font 2 + 1 ?",
       },
       {
         id: 3,
-        lessonId: 1, // Nouns
-        type: "SELECT",
-        order: 3,
-        question: 'Which one of these is the "the robot"?',
-      },
-    ]);
-
-    await db.insert(schema.challengeOptions).values([
-      {
-        challengeId: 1, // Which one of these is "the man"?
-        imageSrc: "/man.svg",
-        correct: true,
-        text: "el hombre",
-        audioSrc: "/es_man.mp3",
-      },
-      {
-        challengeId: 1,
-        imageSrc: "/woman.svg",
-        correct: false,
-        text: "la mujer",
-        audioSrc: "/es_woman.mp3",
-      },
-      {
-        challengeId: 1,
-        imageSrc: "/robot.svg",
-        correct: false,
-        text: "el robot",
-        audioSrc: "/es_robot.mp3",
-      },
-    ]);
-
-    await db.insert(schema.challengeOptions).values([
-      {
-        challengeId: 2, // "the man"?
-        correct: true,
-        text: "el hombre",
-        audioSrc: "/es_man.mp3",
-      },
-      {
-        challengeId: 2,
-        correct: false,
-        text: "la mujer",
-        audioSrc: "/es_woman.mp3",
-      },
-      {
-        challengeId: 2,
-        correct: false,
-        text: "el robot",
-        audioSrc: "/es_robot.mp3",
-      },
-    ]);
-
-    await db.insert(schema.challengeOptions).values([
-      {
-        challengeId: 3, // Which one of these is the "the robot"?
-        imageSrc: "/man.svg",
-        correct: false,
-        text: "el hombre",
-        audioSrc: "/es_man.mp3",
-      },
-      {
-        challengeId: 3,
-        imageSrc: "/woman.svg",
-        correct: false,
-        text: "la mujer",
-        audioSrc: "/es_woman.mp3",
-      },
-      {
-        challengeId: 3,
-        imageSrc: "/robot.svg",
-        correct: true,
-        text: "el robot",
-        audioSrc: "/es_robot.mp3",
-      },
-    ]);
-
-    await db.insert(schema.challenges).values([
-      {
-        id: 4,
-        lessonId: 2, // Verbs
-        type: "SELECT",
-        order: 1,
-        question: 'Which one of these is the "the man"?',
-      },
-      {
-        id: 5,
-        lessonId: 2, // Verbs
+        lessonId: 1,
         type: "ASSIST",
-        order: 2,
-        question: '"the man"',
-      },
-      {
-        id: 6,
-        lessonId: 2, // Verbs
-        type: "SELECT",
         order: 3,
-        question: 'Which one of these is the "the robot"?',
+        question: "Résous : x + 1 = 3",
       },
     ]);
-    console.log("Seeding finished");
+
+    // 5. Ajout des options avec audio (sans dossier)
+    await db.insert(schema.challengeOptions).values([
+      // Challenge 1 : 1 + 1 = 2
+      { challengeId: 1, correct: false, text: "1", audioSrc: "/1.mp3" },
+      { challengeId: 1, correct: true, text: "2", audioSrc: "/2.mp3" },
+      { challengeId: 1, correct: false, text: "3", audioSrc: "/3.mp3" },
+      
+      // Challenge 2 : 2 + 1 = 3
+      { challengeId: 2, correct: false, text: "1", audioSrc: "/1.mp3" },
+      { challengeId: 2, correct: false, text: "2", audioSrc: "/2.mp3" },
+      { challengeId: 2, correct: true, text: "3", audioSrc: "/3.mp3" },
+      
+      // Challenge 3 : x + 1 = 3 → x = 2
+      { challengeId: 3, correct: false, text: "1", audioSrc: "/1.mp3" },
+      { challengeId: 3, correct: true, text: "2", audioSrc: "/2.mp3" },
+      { challengeId: 3, correct: false, text: "3", audioSrc: "/3.mp3" },
+    ]);
+
+    console.log("✅ Seeding terminé !");
+    console.log("📁 Place tes fichiers audio dans public/ :");
+    console.log("   - 1.mp3");
+    console.log("   - 2.mp3");
+    console.log("   - 3.mp3");
+    
   } catch (error) {
-    console.error(error);
+    console.error("❌ Erreur:", error);
     throw new Error("Failed to seed the database");
   }
 };
 
 main();
-
