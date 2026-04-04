@@ -62,9 +62,7 @@ export const getUnits = cache(async () => {
 
   const normalizedData = data.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
-      if (
-        lesson.challenges.length === 0
-      ) {
+      if (lesson.challenges.length === 0) {
         return { ...lesson, completed: false };
       }
 
@@ -85,7 +83,6 @@ export const getUnits = cache(async () => {
 
 export const getCourses = cache(async () => {
   const data = await db.query.courses.findMany();
-
   return data;
 });
 
@@ -141,7 +138,7 @@ export const getCourseProgress = cache(async () => {
       return lesson.challenges.some((challenge) => {
         return !challenge.challengeProgress 
           || challenge.challengeProgress.length === 0 
-          || challenge.challengeProgress.some((progress) => progress.completed === false)
+          || challenge.challengeProgress.some((progress) => progress.completed === false);
       });
     });
 
@@ -159,7 +156,6 @@ export const getLesson = cache(async (id?: number) => {
   }
 
   const courseProgress = await getCourseProgress();
-
   const lessonId = id || courseProgress?.activeLessonId;
 
   if (!lessonId) {
@@ -188,12 +184,12 @@ export const getLesson = cache(async (id?: number) => {
   const normalizedChallenges = data.challenges.map((challenge) => {
     const completed = challenge.challengeProgress 
       && challenge.challengeProgress.length > 0
-      && challenge.challengeProgress.every((progress) => progress.completed)
+      && challenge.challengeProgress.every((progress) => progress.completed);
 
     return { ...challenge, completed };
   });
 
-  return { ...data, challenges: normalizedChallenges }
+  return { ...data, challenges: normalizedChallenges };
 });
 
 export const getLessonPercentage = cache(async () => {
@@ -209,8 +205,7 @@ export const getLessonPercentage = cache(async () => {
     return 0;
   }
 
-  const completedChallenges = lesson.challenges
-    .filter((challenge) => challenge.completed);
+  const completedChallenges = lesson.challenges.filter((challenge) => challenge.completed);
   const percentage = Math.round(
     (completedChallenges.length / lesson.challenges.length) * 100,
   );
@@ -248,7 +243,10 @@ export const getTopTenUsers = cache(async () => {
   }
 
   const data = await db.query.userProgress.findMany({
-    orderBy: (userProgress, { desc }) => [desc(userProgress.points)],
+    orderBy: (userProgress, { desc, asc }) => [
+      desc(userProgress.points),
+      asc(userProgress.userId), // ✅ Tri secondaire stable
+    ],
     limit: 10,
     columns: {
       userId: true,
@@ -258,5 +256,11 @@ export const getTopTenUsers = cache(async () => {
     },
   });
 
-  return data;
+  // ✅ Normalisation des données
+  return data.map((entry) => ({
+    userId: entry.userId,
+    userName: entry.userName ?? "Anonymous",
+    userImageSrc: entry.userImageSrc ?? "/default-avatar.png",
+    points: entry.points ?? 0,
+  }));
 });

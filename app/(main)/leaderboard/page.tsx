@@ -30,7 +30,6 @@ const LeaderboardPage = async () => {
   }
 
   const isPro = !!userSubscription?.isActive;
-
   const medalColors = ["🥇", "🥈", "🥉"];
 
   return (
@@ -77,12 +76,14 @@ const LeaderboardPage = async () => {
 
           {/* List */}
           <div className="w-full space-y-2">
-            {leaderboard.map((userProgress, index) => {
+            {leaderboard.map((entry, index) => {
+              if (!entry.userId) return null; // ✅ Guard sécurité
+
               const isTop3 = index < 3;
 
               return (
                 <div
-                  key={userProgress.userId}
+                  key={entry.userId}
                   className={`flex items-center w-full p-3 px-4 rounded-2xl
                     transition-all duration-200 group
                     ${isTop3
@@ -104,14 +105,16 @@ const LeaderboardPage = async () => {
                   {/* Avatar */}
                   <Avatar className="h-11 w-11 ml-3 mr-4 border-2 border-white shadow-sm">
                     <AvatarImage
+                      key={`avatar-${entry.userId}`} // ✅ Clé unique par utilisateur
                       className="object-cover"
-                      src={userProgress.userImageSrc}
+                      src={entry.userImageSrc}
+                      alt={entry.userName}
                     />
                   </Avatar>
 
                   {/* Name */}
                   <p className="font-bold text-slate-700 flex-1 text-sm">
-                    {userProgress.userName}
+                    {entry.userName}
                   </p>
 
                   {/* XP */}
@@ -122,7 +125,7 @@ const LeaderboardPage = async () => {
                     }`}
                   >
                     <span>⚡</span>
-                    {userProgress.points} XP
+                    {entry.points} XP
                   </div>
                 </div>
               );
