@@ -30,25 +30,19 @@ export const LessonButton = ({
   const cycleIndex = index % cycleLength;
 
   let indentationLevel;
-
-  if (cycleIndex <= 2) {
-    indentationLevel = cycleIndex;
-  } else if (cycleIndex <= 4) {
-    indentationLevel = 4 - cycleIndex;
-  } else if (cycleIndex <= 6) {
-    indentationLevel = 4 - cycleIndex;
-  } else {
-    indentationLevel = cycleIndex - 8;
-  }
+  if (cycleIndex <= 2) indentationLevel = cycleIndex;
+  else if (cycleIndex <= 4) indentationLevel = 4 - cycleIndex;
+  else if (cycleIndex <= 6) indentationLevel = 4 - cycleIndex;
+  else indentationLevel = cycleIndex - 8;
 
   const rightPosition = indentationLevel * 40;
 
   const isFirst = index === 0;
   const isLast = index === totalCount;
   const isCompleted = !current && !locked;
+  const isPerfect = isCompleted && percentage === 100;
 
   const Icon = isCompleted ? Check : isLast ? Crown : Star;
-
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
 
   return (
@@ -67,13 +61,13 @@ export const LessonButton = ({
         {current ? (
           <div className="h-[102px] w-[102px] relative">
 
-            {/* Start badge */}
+            {/* Badge Start */}
             <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10
               px-3 py-1.5 rounded-xl
-              bg-gradient-to-r from-blue-500 to-blue-500
+              bg-gradient-to-r from-blue-500 to-indigo-500
               text-white text-xs font-extrabold uppercase tracking-widest
               shadow-lg shadow-blue-200
-              animate-bounce whitespace-nowrap"
+              animate-[bounce_1s_ease-in-out_3] whitespace-nowrap"
             >
               Start
               <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2
@@ -90,9 +84,7 @@ export const LessonButton = ({
                   stroke: "url(#progressGradient)",
                   strokeLinecap: "round",
                 },
-                trail: {
-                  stroke: "#e8e8f0",
-                },
+                trail: { stroke: "#e8e8f0" },
               }}
             >
               <svg style={{ height: 0, width: 0, position: "absolute" }}>
@@ -108,34 +100,46 @@ export const LessonButton = ({
                 size="rounded"
                 variant={locked ? "locked" : "secondary"}
                 className={cn(
-                  "h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
+                  "h-[70px] w-[70px] border-b-[6px] transition-all duration-300 active:scale-95",
                   !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-lg shadow-blue-100",
                 )}
               >
-                <Icon
-                  className={cn(
-                    "h-9 w-9",
-                    locked
-                      ? "fill-neutral-300 text-neutral-300 stroke-neutral-300"
-                      : "fill-white text-white",
-                    isCompleted && "fill-none stroke-[4]"
-                  )}
-                />
+                <Icon className="h-9 w-9 fill-white text-white" />
               </Button>
             </CircularProgressbarWithChildren>
           </div>
+
         ) : (
           <div className="relative group">
+
+            {/* Halo au survol */}
             {isCompleted && (
-              <div className="absolute inset-0 rounded-full bg-blue-300/30 blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className={cn(
+                "absolute inset-0 rounded-full blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-700",
+                isPerfect ? "bg-yellow-300/40" : "bg-blue-300/30"
+              )} />
             )}
+
+            {/* Badge Perfect */}
+            {isPerfect && (
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10
+                px-2 py-0.5 rounded-full
+                bg-gradient-to-r from-yellow-400 to-amber-400
+                text-white text-[9px] font-extrabold uppercase tracking-wider
+                shadow-sm whitespace-nowrap"
+              >
+                ★ Perfect
+              </div>
+            )}
+
             <Button
               size="rounded"
               variant={locked ? "locked" : "secondary"}
               className={cn(
-                "relative h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
+                "relative h-[70px] w-[70px] border-b-[6px] transition-all duration-300 active:scale-95",
                 !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-md shadow-blue-100",
-                isCompleted && "!bg-blue-400 !border-b-blue-600",
+                isCompleted && !isPerfect && "!bg-blue-400 !border-b-blue-600",
+                isPerfect && "!bg-gradient-to-br !from-yellow-400 !to-amber-500 !border-b-amber-600 shadow-md shadow-amber-100",
               )}
             >
               <Icon
@@ -144,7 +148,7 @@ export const LessonButton = ({
                   locked
                     ? "fill-neutral-300 text-neutral-300 stroke-neutral-300"
                     : "fill-white text-white",
-                  isCompleted && "fill-none stroke-white stroke-[4]"
+                  isCompleted && "fill-none stroke-white stroke-[4]",
                 )}
               />
             </Button>
