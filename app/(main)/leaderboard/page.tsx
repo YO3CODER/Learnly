@@ -5,10 +5,11 @@ import { FeedWrapper } from "@/components/feed-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { getTopTenUsers, getUserProgress, getUserSubscription } from "@/db/queries";
-import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Promo } from "@/components/promo";
 import { Quests } from "@/components/quests";
+
+export const dynamic = "force-dynamic";
 
 const LeaderboardPage = async () => {
   const userProgressData = getUserProgress();
@@ -77,7 +78,7 @@ const LeaderboardPage = async () => {
           {/* List */}
           <div className="w-full space-y-2">
             {leaderboard.map((entry, index) => {
-              if (!entry.userId) return null; // ✅ Guard sécurité
+              if (!entry.userId) return null;
 
               const isTop3 = index < 3;
 
@@ -105,7 +106,7 @@ const LeaderboardPage = async () => {
                   {/* Avatar */}
                   <Avatar className="h-11 w-11 ml-3 mr-4 border-2 border-white shadow-sm">
                     <AvatarImage
-                      key={`avatar-${entry.userId}`} // ✅ Clé unique par utilisateur
+                      key={`avatar-${entry.userId}`}
                       className="object-cover"
                       src={entry.userImageSrc}
                       alt={entry.userName}

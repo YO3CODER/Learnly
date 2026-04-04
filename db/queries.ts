@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
+import { unstable_noStore as noStore } from "next/cache";
 
 import db from "@/db/drizzle";
 import { 
@@ -236,6 +237,8 @@ export const getUserSubscription = cache(async () => {
 });
 
 export const getTopTenUsers = cache(async () => {
+  noStore(); // ✅ Jamais mis en cache
+
   const { userId } = await auth();
 
   if (!userId) {
@@ -245,7 +248,7 @@ export const getTopTenUsers = cache(async () => {
   const data = await db.query.userProgress.findMany({
     orderBy: (userProgress, { desc, asc }) => [
       desc(userProgress.points),
-      asc(userProgress.userId), // ✅ Tri secondaire stable
+      asc(userProgress.userId), // ✅ Tri stable
     ],
     limit: 10,
     columns: {
@@ -256,7 +259,6 @@ export const getTopTenUsers = cache(async () => {
     },
   });
 
-  // ✅ Normalisation des données
   return data.map((entry) => ({
     userId: entry.userId,
     userName: entry.userName ?? "Anonymous",
