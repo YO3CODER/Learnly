@@ -10,7 +10,7 @@ export const QuestionBubble = ({ question }: Props) => {
 
       {/* Mascot */}
       <div className="relative shrink-0">
-        <div className="absolute inset-0 bg-indigo-200/40 rounded-full blur-md scale-125" />
+        <div className="absolute inset-0 bg-blue-200/40 rounded-full blur-md scale-125" />
         <Image
           src="/mascot.svg"
           alt="Mascot"

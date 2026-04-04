@@ -151,7 +151,7 @@ export const Quiz = ({
 
           {/* Finish illustration with glow */}
           <div className="relative">
-            <div className="absolute inset-0 bg-indigo-200/40 rounded-full blur-2xl scale-150" />
+            <div className="absolute inset-0 bg-blue-200/40 rounded-full blur-2xl scale-150" />
             <Image
               src="/finish.svg"
               alt="Finish"
@@ -170,13 +170,13 @@ export const Quiz = ({
 
           {/* Message */}
           <div className="space-y-2">
-            <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400">
+            <p className="text-xs font-semibold tracking-widest uppercase text-blue-400">
               Lesson Complete
             </p>
             <h1 className="text-2xl lg:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Great job! 🎉
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
                 You&apos;ve completed the lesson.
               </span>
             </h1>

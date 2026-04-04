@@ -22,7 +22,7 @@ export const Header = () => {
         {/* Logo */}
         <div className="flex items-center gap-x-3 group">
           <div className="relative">
-            <div className="absolute inset-0 bg-indigo-200/40 rounded-full blur-md scale-125
+            <div className="absolute inset-0 bg-blue-200/40 rounded-full blur-md scale-125
               opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Image
               src="/mascot.svg"
@@ -33,7 +33,7 @@ export const Header = () => {
             />
           </div>
           <h1 className="text-2xl font-extrabold tracking-tight
-            text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500"
+            text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500"
           >
             Learnly
           </h1>
@@ -41,7 +41,7 @@ export const Header = () => {
 
         {/* Auth */}
         <ClerkLoading>
-          <Loader className="h-5 w-5 text-indigo-300 animate-spin" />
+          <Loader className="h-5 w-5 text-blue-300 animate-spin" />
         </ClerkLoading>
         <ClerkLoaded>
           <SignedIn>
@@ -57,7 +57,7 @@ export const Header = () => {
                 size="lg"
                 variant="ghost"
                 className="rounded-xl font-semibold text-slate-500
-                  hover:text-indigo-500 hover:bg-indigo-50
+                  hover:text-blue-500 hover:bg-blue-50
                   transition-all duration-200"
               >
                 Login

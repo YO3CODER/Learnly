@@ -70,9 +70,9 @@ export const LessonButton = ({
             {/* Start badge */}
             <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10
               px-3 py-1.5 rounded-xl
-              bg-gradient-to-r from-indigo-500 to-violet-500
+              bg-gradient-to-r from-blue-500 to-violet-500
               text-white text-xs font-extrabold uppercase tracking-widest
-              shadow-lg shadow-indigo-200
+              shadow-lg shadow-blue-200
               animate-bounce whitespace-nowrap"
             >
               Start
@@ -109,7 +109,7 @@ export const LessonButton = ({
                 variant={locked ? "locked" : "secondary"}
                 className={cn(
                   "h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
-                  !locked && "!bg-indigo-500 hover:!bg-indigo-600 !border-b-indigo-700 shadow-lg shadow-indigo-100",
+                  !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-lg shadow-blue-100",
                 )}
               >
                 <Icon
@@ -127,15 +127,15 @@ export const LessonButton = ({
         ) : (
           <div className="relative group">
             {isCompleted && (
-              <div className="absolute inset-0 rounded-full bg-indigo-300/30 blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-full bg-blue-300/30 blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             )}
             <Button
               size="rounded"
               variant={locked ? "locked" : "secondary"}
               className={cn(
                 "relative h-[70px] w-[70px] border-b-[6px] transition-transform duration-150 active:scale-95",
-                !locked && "!bg-indigo-500 hover:!bg-indigo-600 !border-b-indigo-700 shadow-md shadow-indigo-100",
-                isCompleted && "!bg-indigo-400 !border-b-indigo-600",
+                !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-md shadow-blue-100",
+                isCompleted && "!bg-blue-400 !border-b-blue-600",
               )}
             >
               <Icon

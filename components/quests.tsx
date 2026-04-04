@@ -12,13 +12,13 @@ type Props = {
 export const Quests = ({ points }: Props) => {
   return (
     <div className="rounded-2xl p-5 space-y-4
-      bg-gradient-to-b from-white to-indigo-50/30
+      bg-gradient-to-b from-white to-blue-50/30
       border border-slate-200/80 shadow-sm"
     >
       {/* Header */}
       <div className="flex items-center justify-between w-full">
         <div>
-          <p className="text-[10px] font-semibold tracking-widest uppercase text-indigo-400 mb-0.5">
+          <p className="text-[10px] font-semibold tracking-widest uppercase text-blue-400 mb-0.5">
             Daily
           </p>
           <h3 className="font-extrabold text-lg text-slate-800 tracking-tight">
@@ -29,7 +29,7 @@ export const Quests = ({ points }: Props) => {
           <Button
             size="sm"
             variant="primaryOutline"
-            className="rounded-xl text-xs font-semibold border-indigo-200 text-indigo-500 hover:bg-indigo-50"
+            className="rounded-xl text-xs font-semibold border-blue-200 text-blue-500 hover:bg-blue-50"
           >
             View all
           </Button>
@@ -37,7 +37,7 @@ export const Quests = ({ points }: Props) => {
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-gradient-to-r from-indigo-100 via-violet-100 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-blue-100 via-violet-100 to-transparent" />
 
       {/* Quest list */}
       <ul className="w-full space-y-4">
@@ -53,7 +53,7 @@ export const Quests = ({ points }: Props) => {
               {/* Icon */}
               <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
                 ${isCompleted
-                  ? "bg-indigo-100"
+                  ? "bg-blue-100"
                   : "bg-amber-50 border border-amber-100"
                 }`}
               >
@@ -73,7 +73,7 @@ export const Quests = ({ points }: Props) => {
                     {quest.title}
                   </p>
                   <span className={`text-[11px] font-bold
-                    ${isCompleted ? "text-indigo-400" : "text-amber-400"}`}
+                    ${isCompleted ? "text-blue-400" : "text-amber-400"}`}
                   >
                     {isCompleted ? "✓ Done" : `${Math.floor(progress)}%`}
                   </span>
@@ -81,7 +81,7 @@ export const Quests = ({ points }: Props) => {
                 <Progress
                   value={progress}
                   className={`h-2 rounded-full
-                    ${isCompleted ? "[&>div]:bg-indigo-400" : "[&>div]:bg-amber-400"}`}
+                    ${isCompleted ? "[&>div]:bg-blue-400" : "[&>div]:bg-amber-400"}`}
                 />
               </div>
             </div>

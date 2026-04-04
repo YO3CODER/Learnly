@@ -14,11 +14,11 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden
-      bg-gradient-to-br from-slate-50 via-white to-indigo-50/40"
+      bg-gradient-to-br from-slate-50 via-white to-blue-50/40"
     >
       {/* Decorative blobs */}
       <div className="absolute top-[-80px] left-[-80px] w-[340px] h-[340px] rounded-full
-        bg-indigo-100/60 blur-3xl pointer-events-none" />
+        bg-blue-100/60 blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full
         bg-violet-100/50 blur-3xl pointer-events-none" />
 
@@ -28,7 +28,7 @@ export default function Home() {
 
         {/* Hero illustration */}
         <div className="relative w-[220px] h-[220px] lg:w-[420px] lg:h-[420px] mb-4 lg:mb-0 shrink-0">
-          <div className="absolute inset-0 bg-indigo-200/30 rounded-full blur-2xl scale-110" />
+          <div className="absolute inset-0 bg-blue-200/30 rounded-full blur-2xl scale-110" />
           <Image src="/hero.svg" fill alt="Hero" className="relative drop-shadow-xl" />
         </div>
 
@@ -37,14 +37,14 @@ export default function Home() {
 
           {/* Text */}
           <div className="space-y-3 text-center lg:text-left">
-            <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400">
+            <p className="text-xs font-semibold tracking-widest uppercase text-blue-400">
               Welcome to Learnly
             </p>
             <h1 className="text-3xl lg:text-5xl font-extrabold text-slate-800
               tracking-tight leading-tight max-w-[480px]"
             >
               Learn, practice, and{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
                 master
               </span>{" "}
               new skills with Learnly.
@@ -57,7 +57,7 @@ export default function Home() {
           {/* Buttons */}
           <div className="flex flex-col items-center gap-y-3 w-full max-w-[330px]">
             <ClerkLoading>
-              <Loader className="h-5 w-5 text-indigo-300 animate-spin" />
+              <Loader className="h-5 w-5 text-blue-300 animate-spin" />
             </ClerkLoading>
             <ClerkLoaded>
               <SignedOut>
@@ -69,8 +69,8 @@ export default function Home() {
                   <Button
                     size="lg"
                     
-                    className="w-full rounded-xl font-bold shadow-md shadow-indigo-100
-                      bg-gradient-to-r from-indigo-500 to-violet-500
+                    className="w-full rounded-xl font-bold shadow-md shadow-blue-100
+                      bg-gradient-to-r from-blue-500 to-violet-500
                       hover:opacity-90 text-white transition-all duration-200"
                   >
                     Get Started — it&apos;s free
@@ -96,8 +96,8 @@ export default function Home() {
                   size="lg"
                   
                   className="w-full rounded-xl font-bold
-                    bg-gradient-to-r from-indigo-500 to-violet-500
-                    hover:opacity-90 text-white shadow-md shadow-indigo-200
+                    bg-gradient-to-r from-blue-500 to-violet-500
+                    hover:opacity-90 text-white shadow-md shadow-blue-200
                     transition-all duration-200"
                   asChild
                 >

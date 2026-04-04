@@ -51,7 +51,7 @@ const LeaderboardPage = async () => {
 
           {/* Header */}
           <div className="relative">
-            <div className="absolute inset-0 bg-indigo-200/30 rounded-full blur-xl scale-150" />
+            <div className="absolute inset-0 bg-blue-200/30 rounded-full blur-xl scale-150" />
             <Image
               src="/leaderboard.svg"
               alt="Leaderboard"
@@ -62,7 +62,7 @@ const LeaderboardPage = async () => {
           </div>
 
           <div className="mt-4 mb-1 text-center">
-            <p className="text-xs font-semibold tracking-widest uppercase text-indigo-400 mb-1">
+            <p className="text-xs font-semibold tracking-widest uppercase text-blue-400 mb-1">
               Rankings
             </p>
             <h1 className="font-extrabold text-slate-800 text-3xl tracking-tight">
@@ -73,7 +73,7 @@ const LeaderboardPage = async () => {
             See where you stand among other learners in the community.
           </p>
 
-          <div className="h-px w-full bg-gradient-to-r from-indigo-100 via-violet-100 to-transparent mb-6 rounded-full" />
+          <div className="h-px w-full bg-gradient-to-r from-blue-100 via-violet-100 to-transparent mb-6 rounded-full" />
 
           {/* List */}
           <div className="w-full space-y-2">
@@ -86,7 +86,7 @@ const LeaderboardPage = async () => {
                   className={`flex items-center w-full p-3 px-4 rounded-2xl
                     transition-all duration-200 group
                     ${isTop3
-                      ? "bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100"
+                      ? "bg-gradient-to-r from-blue-50 to-violet-50 border border-blue-100"
                       : "hover:bg-slate-50 border border-transparent"
                     }`}
                 >
@@ -117,7 +117,7 @@ const LeaderboardPage = async () => {
                   {/* XP */}
                   <div className={`flex items-center gap-x-1.5 px-3 py-1 rounded-xl text-xs font-extrabold
                     ${isTop3
-                      ? "bg-indigo-100 text-indigo-500"
+                      ? "bg-blue-100 text-blue-500"
                       : "bg-slate-100 text-slate-400"
                     }`}
                   >
