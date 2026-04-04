@@ -25,7 +25,7 @@ export const Sidebar = ({ className }: Props) => {
     )}>
 
       {/* Logo */}
-      <Link href="/learn">
+      <Link href="/">
         <div className="pt-8 px-6 pb-7 flex items-center gap-x-3 group">
           <div className="relative">
             <div className="absolute inset-0 bg-blue-300/30 rounded-full blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
