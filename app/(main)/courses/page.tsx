@@ -25,7 +25,7 @@ const CoursesPage = async () => {
           </p>
           <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight leading-none">
             All{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">
               Courses
             </span>
           </h1>
@@ -35,7 +35,7 @@ const CoursesPage = async () => {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-blue-100 via-violet-100 to-transparent mb-10" />
+        <div className="h-px bg-gradient-to-r from-blue-100 via-blue-100 to-transparent mb-10" />
 
         <List
           courses={courses}

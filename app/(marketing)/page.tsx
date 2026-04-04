@@ -20,7 +20,7 @@ export default function Home() {
       <div className="absolute top-[-80px] left-[-80px] w-[340px] h-[340px] rounded-full
         bg-blue-100/60 blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full
-        bg-violet-100/50 blur-3xl pointer-events-none" />
+        bg-blue-100/50 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-[988px] mx-auto flex-1 w-full flex flex-col lg:flex-row
         items-center justify-center p-6 gap-8 lg:gap-16 z-10"
@@ -44,7 +44,7 @@ export default function Home() {
               tracking-tight leading-tight max-w-[480px]"
             >
               Learn, practice, and{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">
                 master
               </span>{" "}
               new skills with Learnly.
@@ -70,7 +70,7 @@ export default function Home() {
                     size="lg"
                     
                     className="w-full rounded-xl font-bold shadow-md shadow-blue-100
-                      bg-gradient-to-r from-blue-500 to-violet-500
+                      bg-gradient-to-r from-blue-500 to-blue-500
                       hover:opacity-90 text-white transition-all duration-200"
                   >
                     Get Started — it&apos;s free
@@ -96,7 +96,7 @@ export default function Home() {
                   size="lg"
                   
                   className="w-full rounded-xl font-bold
-                    bg-gradient-to-r from-blue-500 to-violet-500
+                    bg-gradient-to-r from-blue-500 to-blue-500
                     hover:opacity-90 text-white shadow-md shadow-blue-200
                     transition-all duration-200"
                   asChild

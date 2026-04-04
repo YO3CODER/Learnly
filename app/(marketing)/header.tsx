@@ -33,7 +33,7 @@ export const Header = () => {
             />
           </div>
           <h1 className="text-2xl font-extrabold tracking-tight
-            text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500"
+            text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500"
           >
             Learnly
           </h1>

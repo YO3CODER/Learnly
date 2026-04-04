@@ -37,7 +37,7 @@ export const Quests = ({ points }: Props) => {
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-gradient-to-r from-blue-100 via-violet-100 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-blue-100 via-blue-100 to-transparent" />
 
       {/* Quest list */}
       <ul className="w-full space-y-4">

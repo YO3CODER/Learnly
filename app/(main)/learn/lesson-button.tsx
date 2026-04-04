@@ -70,7 +70,7 @@ export const LessonButton = ({
             {/* Start badge */}
             <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10
               px-3 py-1.5 rounded-xl
-              bg-gradient-to-r from-blue-500 to-violet-500
+              bg-gradient-to-r from-blue-500 to-blue-500
               text-white text-xs font-extrabold uppercase tracking-widest
               shadow-lg shadow-blue-200
               animate-bounce whitespace-nowrap"
@@ -79,7 +79,7 @@ export const LessonButton = ({
               <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2
                 w-0 h-0
                 border-x-[6px] border-x-transparent
-                border-t-[6px] border-t-violet-500"
+                border-t-[6px] border-t-blue-500"
               />
             </div>
 

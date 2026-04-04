@@ -31,14 +31,14 @@ export const Sidebar = ({ className }: Props) => {
             <div className="absolute inset-0 bg-blue-300/30 rounded-full blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Image src="/mascot.svg" height={52} width={52} alt="Mascot" className="relative drop-shadow-sm" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-blue-500 bg-clip-text text-transparent">
             Learnly
           </h1>
         </div>
       </Link>
 
       {/* Divider */}
-      <div className="mx-4 h-px bg-gradient-to-r from-blue-100 via-violet-100 to-transparent mb-4" />
+      <div className="mx-4 h-px bg-gradient-to-r from-blue-100 via-blue-100 to-transparent mb-4" />
 
       {/* Nav items */}
       <div className="flex flex-col gap-y-1 flex-1 px-3">

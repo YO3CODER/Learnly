@@ -14,7 +14,7 @@ export const UnitBanner = ({
 }: Props) => {
   return (
     <div className="w-full rounded-2xl p-6 flex items-center justify-between
-      bg-gradient-to-r from-blue-400/80 to-violet-400/80
+      bg-gradient-to-r from-blue-400/80 to-blue-400/80
       shadow-md shadow-blue-100/50
       relative overflow-hidden"
     >

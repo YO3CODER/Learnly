@@ -84,7 +84,7 @@ export const Footer = ({
             status === "correct" && "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-200",
             status === "wrong" && "bg-rose-500 hover:bg-rose-600 text-white shadow-md shadow-rose-200",
             status === "none" && "shadow-md",
-            status === "completed" && "bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-md shadow-blue-200 hover:opacity-90",
+            status === "completed" && "bg-gradient-to-r from-blue-500 to-blue-500 text-white shadow-md shadow-blue-200 hover:opacity-90",
           )}
           onClick={onCheck}
           size={isMobile ? "sm" : "lg"}

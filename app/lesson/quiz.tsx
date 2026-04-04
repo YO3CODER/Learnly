@@ -176,7 +176,7 @@ export const Quiz = ({
             <h1 className="text-2xl lg:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Great job! 🎉
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">
                 You&apos;ve completed the lesson.
               </span>
             </h1>
