@@ -6,17 +6,16 @@ import { Button } from "@/components/ui/button";
 type Props = {
   title: string;
   description: string;
-  color?: string; // Personnalisation de la couleur principale
-  accentColor?: string; // Personnalisation de la couleur d'accentuation
+  color?: string;
+  accentColor?: string;
 };
 
 export const UnitBanner = ({
   title,
   description,
-  color = "blue", // Valeur par défaut
-  accentColor = "blue", // Valeur par défaut
+  color = "blue",
+  accentColor = "blue",
 }: Props) => {
-  // Mapping des couleurs pour les gradients
   const getGradientColors = () => {
     const colors: Record<string, string> = {
       blue: "from-blue-400/80 to-blue-500/80",
@@ -60,7 +59,8 @@ export const UnitBanner = ({
   };
 
   return (
-    <div className={`w-full rounded-2xl p-6 flex items-center justify-between
+    <div
+      className={`w-full rounded-2xl p-6 flex items-center justify-between
       bg-gradient-to-r ${getGradientColors()}
       shadow-md ${getShadowColor()}
       relative overflow-hidden`}
@@ -77,32 +77,27 @@ export const UnitBanner = ({
         <h3 className="text-2xl font-extrabold text-white tracking-tight">
           {title}
         </h3>
-        <p className="text-white/70 text-sm font-medium">
-          {description}
-        </p>
+        <p className="text-white/70 text-sm font-medium">{description}</p>
       </div>
 
-      {/* CTA */}
+      {/* CTA — un seul Link */}
       <Link href="/lesson" className="relative z-10">
-       <Link href="/lesson" className="relative z-10">
-  <Button
-    size="default"  // 👈 Changé de "lg" à "default" (plus petit)
-    variant="secondary"
-    className="flex items-center gap-x-1.5  // 👈 Gap plus petit
-      bg-white/20 hover:bg-white/30 backdrop-blur-sm
-      text-white font-semibold text-sm  // 👈 Texte plus petit
-      border border-white/20
-      rounded-lg  // 👈 Coins moins arrondis (était rounded-xl)
-      transition-all duration-200
-      shadow-sm active:scale-95
-      px-4 py-1.5  // 👈 Padding personnalisé plus petit
-      h-auto  // 👈 Hauteur automatique au lieu de fixe
-    "
-  >
-    <NotebookText className="h-4 w-4" /> 
-    Continue
-  </Button>
-</Link>
+        <Button
+          size="default"
+          variant="secondary"
+          className="flex items-center gap-x-1.5
+            bg-white/20 hover:bg-white/30 backdrop-blur-sm
+            text-white font-semibold text-sm
+            border border-white/20
+            rounded-lg
+            transition-all duration-200
+            shadow-sm active:scale-95
+            px-4 py-1.5
+            h-auto"
+        >
+          <NotebookText className="h-4 w-4" />
+          Continue
+        </Button>
       </Link>
     </div>
   );
