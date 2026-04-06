@@ -40,9 +40,15 @@ const main = async () => {
       { id: 2, courseId: 1, title: "Fractions & Proportions", description: "Maîtrise les fractions et les proportions", order: 2 },
       { id: 3, courseId: 1, title: "Géométrie", description: "Aires, périmètres et théorèmes", order: 3 },
       { id: 4, courseId: 1, title: "Statistiques", description: "Moyenne, médiane et probabilités", order: 4 },
+      // ── NOUVELLES UNITÉS DIFFICILES ──
+      { id: 11, courseId: 1, title: "Dérivées & Intégrales", description: "Calcul différentiel et intégral", order: 5 },
+      { id: 12, courseId: 1, title: "Trigonométrie Avancée", description: "Identités et équations trigonométriques", order: 6 },
+      { id: 13, courseId: 1, title: "Nombres Complexes", description: "Algèbre et géométrie des complexes", order: 7 },
+      { id: 14, courseId: 1, title: "Algèbre Linéaire", description: "Matrices et systèmes linéaires avancés", order: 8 },
     ]);
 
     await db.insert(schema.lessons).values([
+      // Unités existantes
       { id: 1, unitId: 1, order: 1, title: "Équations du 1er degré" },
       { id: 2, unitId: 1, order: 2, title: "Équations du 2ème degré" },
       { id: 3, unitId: 1, order: 3, title: "Systèmes d'équations" },
@@ -54,9 +60,28 @@ const main = async () => {
       { id: 9, unitId: 3, order: 3, title: "Théorème de Thalès" },
       { id: 10, unitId: 4, order: 1, title: "Moyenne et médiane" },
       { id: 11, unitId: 4, order: 2, title: "Probabilités de base" },
+      // ── NOUVELLES LEÇONS DIFFICILES ──
+      // Unité 11 - Dérivées & Intégrales
+      { id: 25, unitId: 11, order: 1, title: "Dérivées de fonctions simples" },
+      { id: 26, unitId: 11, order: 2, title: "Règle de la chaîne" },
+      { id: 27, unitId: 11, order: 3, title: "Intégrales définies" },
+      { id: 28, unitId: 11, order: 4, title: "Primitives et intégrales indéfinies" },
+      // Unité 12 - Trigonométrie
+      { id: 29, unitId: 12, order: 1, title: "Identités trigonométriques" },
+      { id: 30, unitId: 12, order: 2, title: "Équations trigonométriques" },
+      { id: 31, unitId: 12, order: 3, title: "Formules d'addition" },
+      // Unité 13 - Complexes
+      { id: 32, unitId: 13, order: 1, title: "Forme algébrique" },
+      { id: 33, unitId: 13, order: 2, title: "Module et argument" },
+      { id: 34, unitId: 13, order: 3, title: "Forme trigonométrique" },
+      // Unité 14 - Algèbre Linéaire
+      { id: 35, unitId: 14, order: 1, title: "Opérations sur les matrices" },
+      { id: 36, unitId: 14, order: 2, title: "Déterminant et inverse" },
+      { id: 37, unitId: 14, order: 3, title: "Systèmes linéaires (méthode de Gauss)" },
     ]);
 
     await db.insert(schema.challenges).values([
+      // ── Leçons existantes ──
       { id: 1, lessonId: 1, type: "ASSIST", order: 1, question: "Résous : 3x + 7 = 2x + 15" },
       { id: 2, lessonId: 1, type: "ASSIST", order: 2, question: "Résous : 5(x - 2) = 3(x + 4)" },
       { id: 3, lessonId: 1, type: "ASSIST", order: 3, question: "Résous : 7x - 9 = 5x + 15" },
@@ -96,176 +121,402 @@ const main = async () => {
       { id: 37, lessonId: 11, type: "SELECT", order: 1, question: "On lance un dé. Quelle est la probabilité d'obtenir 6 ?" },
       { id: 38, lessonId: 11, type: "SELECT", order: 2, question: "On tire une carte dans un jeu de 52. Probabilité d'un as ?" },
       { id: 39, lessonId: 11, type: "SELECT", order: 3, question: "On lance une pièce 2 fois. Probabilité d'obtenir 2 faces ?" },
+
+      // ── NOUVEAUX CHALLENGES DIFFICILES ──
+
+      // Leçon 25 - Dérivées simples
+      { id: 60, lessonId: 25, type: "SELECT", order: 1, question: "Quelle est la dérivée de f(x) = x³ + 2x² - 5x + 3 ?" },
+      { id: 61, lessonId: 25, type: "SELECT", order: 2, question: "Quelle est la dérivée de f(x) = sin(x) + cos(x) ?" },
+      { id: 62, lessonId: 25, type: "SELECT", order: 3, question: "Quelle est la dérivée de f(x) = eˣ · x² ?" },
+      { id: 63, lessonId: 25, type: "SELECT", order: 4, question: "Quelle est la dérivée de f(x) = ln(x) / x ?" },
+
+      // Leçon 26 - Règle de la chaîne
+      { id: 64, lessonId: 26, type: "SELECT", order: 1, question: "Dérive f(x) = (3x² + 1)⁴" },
+      { id: 65, lessonId: 26, type: "SELECT", order: 2, question: "Dérive f(x) = sin(2x + 1)" },
+      { id: 66, lessonId: 26, type: "SELECT", order: 3, question: "Dérive f(x) = e^(x² - 1)" },
+      { id: 67, lessonId: 26, type: "SELECT", order: 4, question: "Dérive f(x) = ln(cos(x))" },
+
+      // Leçon 27 - Intégrales définies
+      { id: 68, lessonId: 27, type: "SELECT", order: 1, question: "Calcule ∫₀² x² dx" },
+      { id: 69, lessonId: 27, type: "SELECT", order: 2, question: "Calcule ∫₁³ (2x + 1) dx" },
+      { id: 70, lessonId: 27, type: "SELECT", order: 3, question: "Calcule ∫₀^π sin(x) dx" },
+      { id: 71, lessonId: 27, type: "SELECT", order: 4, question: "Calcule ∫₁^e (1/x) dx" },
+
+      // Leçon 28 - Primitives
+      { id: 72, lessonId: 28, type: "SELECT", order: 1, question: "Quelle est une primitive de f(x) = 3x² + 2x ?" },
+      { id: 73, lessonId: 28, type: "SELECT", order: 2, question: "Quelle est une primitive de f(x) = cos(x) ?" },
+      { id: 74, lessonId: 28, type: "SELECT", order: 3, question: "Quelle est une primitive de f(x) = 1/(x+1) ?" },
+
+      // Leçon 29 - Identités trigonométriques
+      { id: 75, lessonId: 29, type: "SELECT", order: 1, question: "Simplifie : sin²(x) + cos²(x)" },
+      { id: 76, lessonId: 29, type: "SELECT", order: 2, question: "Quelle est la valeur de cos(2x) en termes de sin(x) ?" },
+      { id: 77, lessonId: 29, type: "SELECT", order: 3, question: "Simplifie : (1 - cos²(x)) / sin(x)" },
+      { id: 78, lessonId: 29, type: "SELECT", order: 4, question: "Quelle est la valeur de tan²(x) + 1 ?" },
+
+      // Leçon 30 - Équations trigonométriques
+      { id: 79, lessonId: 30, type: "SELECT", order: 1, question: "Résous : sin(x) = 1/2 sur [0, 2π]" },
+      { id: 80, lessonId: 30, type: "SELECT", order: 2, question: "Résous : cos(x) = -1 sur [0, 2π]" },
+      { id: 81, lessonId: 30, type: "SELECT", order: 3, question: "Résous : tan(x) = 1 sur [0, π]" },
+
+      // Leçon 31 - Formules d'addition
+      { id: 82, lessonId: 31, type: "SELECT", order: 1, question: "Développe : sin(a + b)" },
+      { id: 83, lessonId: 31, type: "SELECT", order: 2, question: "Développe : cos(a - b)" },
+      { id: 84, lessonId: 31, type: "SELECT", order: 3, question: "Calcule sin(75°) en utilisant sin(45° + 30°)" },
+
+      // Leçon 32 - Forme algébrique complexes
+      { id: 85, lessonId: 32, type: "SELECT", order: 1, question: "Calcule (2 + 3i) + (1 - 5i)" },
+      { id: 86, lessonId: 32, type: "SELECT", order: 2, question: "Calcule (1 + 2i)(3 - i)" },
+      { id: 87, lessonId: 32, type: "SELECT", order: 3, question: "Calcule (2 + i) / (1 - i)" },
+      { id: 88, lessonId: 32, type: "SELECT", order: 4, question: "Quel est le conjugué de z = 4 - 7i ?" },
+
+      // Leçon 33 - Module et argument
+      { id: 89, lessonId: 33, type: "SELECT", order: 1, question: "Quel est le module de z = 3 + 4i ?" },
+      { id: 90, lessonId: 33, type: "SELECT", order: 2, question: "Quel est le module de z = -5 + 12i ?" },
+      { id: 91, lessonId: 33, type: "SELECT", order: 3, question: "Quel est l'argument de z = 1 + i ?" },
+
+      // Leçon 34 - Forme trigonométrique
+      { id: 92, lessonId: 34, type: "SELECT", order: 1, question: "Écris z = 1 + i sous forme trigonométrique" },
+      { id: 93, lessonId: 34, type: "SELECT", order: 2, question: "Calcule z³ pour z = √2 · e^(iπ/4)" },
+
+      // Leçon 35 - Matrices
+      { id: 94, lessonId: 35, type: "SELECT", order: 1, question: "A = [[1,2],[3,4]], B = [[5,6],[7,8]]. Calcule A + B." },
+      { id: 95, lessonId: 35, type: "SELECT", order: 2, question: "A = [[1,2],[3,4]], B = [[2,0],[1,3]]. Calcule A × B." },
+      { id: 96, lessonId: 35, type: "SELECT", order: 3, question: "Calcule 2 × [[1,3],[2,5]]" },
+
+      // Leçon 36 - Déterminant et inverse
+      { id: 97, lessonId: 36, type: "SELECT", order: 1, question: "Calcule det([[2,3],[1,4]])" },
+      { id: 98, lessonId: 36, type: "SELECT", order: 2, question: "Calcule det([[1,2],[3,4]])" },
+      { id: 99, lessonId: 36, type: "SELECT", order: 3, question: "Quelle est l'inverse de A = [[4,7],[2,6]] ?" },
+
+      // Leçon 37 - Méthode de Gauss
+      { id: 100, lessonId: 37, type: "SELECT", order: 1, question: "Résous par Gauss : x + y + z = 6, 2x - y + z = 3, x + 2y - z = 2" },
+      { id: 101, lessonId: 37, type: "SELECT", order: 2, question: "Résous par Gauss : x + 2y = 5, 3x - y = 1" },
     ]);
 
-    // Challenge Options - Mathématiques (bonnes réponses mélangées)
+    // ────────────────────────────────────────────────
+    // CHALLENGE OPTIONS
+    // ────────────────────────────────────────────────
     await db.insert(schema.challengeOptions).values([
-      // Leçon 1 - Challenge 1 (bonne réponse au milieu)
+      // ── Options existantes ──
       { challengeId: 1, correct: false, text: "x = 6", audioSrc: "/6.mp3" },
       { challengeId: 1, correct: true, text: "x = 8", audioSrc: "/8.mp3" },
       { challengeId: 1, correct: false, text: "x = 10", audioSrc: "/10.mp3" },
-      
-      // Challenge 2 (bonne réponse à la fin)
       { challengeId: 2, correct: false, text: "x = 9", audioSrc: "/9.mp3" },
       { challengeId: 2, correct: false, text: "x = 13", audioSrc: "/13.mp3" },
       { challengeId: 2, correct: true, text: "x = 11", audioSrc: "/11.mp3" },
-      
-      // Challenge 3 (bonne réponse au début)
       { challengeId: 3, correct: true, text: "x = 12", audioSrc: "/12.mp3" },
       { challengeId: 3, correct: false, text: "x = 8", audioSrc: "/8.mp3" },
       { challengeId: 3, correct: false, text: "x = 14", audioSrc: "/14.mp3" },
-      
-      // Challenge 4 (bonne réponse au milieu)
       { challengeId: 4, correct: false, text: "x = 5", audioSrc: "/5.mp3" },
       { challengeId: 4, correct: true, text: "x = 7", audioSrc: "/7.mp3" },
       { challengeId: 4, correct: false, text: "x = 9", audioSrc: "/9.mp3" },
-      
-      // Leçon 2 - Challenge 5 (bonne réponse à la fin)
       { challengeId: 5, correct: false, text: "x = 6 ou x = -6", audioSrc: "/6.mp3" },
       { challengeId: 5, correct: false, text: "x = 9 ou x = -9", audioSrc: "/9.mp3" },
       { challengeId: 5, correct: true, text: "x = 3 ou x = -3", audioSrc: "/3.mp3" },
-      
-      // Challenge 6 (bonne réponse au début)
       { challengeId: 6, correct: true, text: "x = 3 ou x = -3", audioSrc: "/3.mp3" },
       { challengeId: 6, correct: false, text: "x = 9 ou x = -9", audioSrc: "/9.mp3" },
-      
-      // Challenge 7 (bonne réponse au milieu)
       { challengeId: 7, correct: false, text: "x = -4 ou x = 3", audioSrc: "/4.mp3" },
       { challengeId: 7, correct: true, text: "x = 4 ou x = -3", audioSrc: "/4.mp3" },
-      
-      // Challenge 8 (bonne réponse à la fin)
       { challengeId: 8, correct: false, text: "x = 7 ou x = -11", audioSrc: "/7.mp3" },
       { challengeId: 8, correct: true, text: "x = 5 ou x = -9", audioSrc: "/5.mp3" },
-      
-      // Challenge 9 (bonne réponse au début)
       { challengeId: 9, correct: true, text: "x = 2 ou x = 3", audioSrc: "/2.mp3" },
       { challengeId: 9, correct: false, text: "x = 1 ou x = 4", audioSrc: "/1.mp3" },
-      
-      // Leçon 3 - Challenge 10 (bonne réponse au milieu)
       { challengeId: 10, correct: false, text: "x = 8, y = 2", audioSrc: "/8.mp3" },
       { challengeId: 10, correct: true, text: "x = 7, y = 3", audioSrc: "/7.mp3" },
-      
-      // Challenge 11 (bonne réponse à la fin)
       { challengeId: 11, correct: false, text: "x = 2, y = 4", audioSrc: "/2.mp3" },
       { challengeId: 11, correct: true, text: "x = 3, y = 1", audioSrc: "/3.mp3" },
-      
-      // Challenge 12 (bonne réponse au début)
       { challengeId: 12, correct: true, text: "x = 2, y = 3", audioSrc: "/2.mp3" },
       { challengeId: 12, correct: false, text: "x = 1, y = 4", audioSrc: "/1.mp3" },
-      
-      // Challenge 13 (bonne réponse au milieu)
       { challengeId: 13, correct: false, text: "x = 3, y = 2", audioSrc: "/3.mp3" },
       { challengeId: 13, correct: true, text: "x = 2, y = 3", audioSrc: "/2.mp3" },
-      
-      // Leçon 4 - Fractions (bonnes réponses mélangées)
       { challengeId: 14, correct: false, text: "1/2" },
       { challengeId: 14, correct: true, text: "2/3" },
       { challengeId: 14, correct: false, text: "3/4" },
-      
       { challengeId: 15, correct: false, text: "1/2" },
       { challengeId: 15, correct: false, text: "3/5" },
       { challengeId: 15, correct: true, text: "2/3" },
-      
       { challengeId: 16, correct: false, text: "1/4" },
       { challengeId: 16, correct: true, text: "1/3" },
       { challengeId: 16, correct: false, text: "2/5" },
-      
       { challengeId: 17, correct: false, text: "1/2" },
       { challengeId: 17, correct: false, text: "3/7" },
       { challengeId: 17, correct: true, text: "2/3" },
-      
-      // Leçon 5 - Opérations
       { challengeId: 18, correct: false, text: "2/5" },
       { challengeId: 18, correct: true, text: "5/6" },
       { challengeId: 18, correct: false, text: "1/6" },
-      
       { challengeId: 19, correct: false, text: "1/4" },
       { challengeId: 19, correct: false, text: "2/3" },
       { challengeId: 19, correct: true, text: "7/12" },
-      
       { challengeId: 20, correct: false, text: "5/12" },
       { challengeId: 20, correct: true, text: "1/2" },
       { challengeId: 20, correct: false, text: "3/4" },
-      
       { challengeId: 21, correct: false, text: "25/18" },
       { challengeId: 21, correct: false, text: "5/9" },
       { challengeId: 21, correct: true, text: "1/2" },
-      
-      // Leçon 6 - Proportions
       { challengeId: 22, correct: false, text: "12€" },
       { challengeId: 22, correct: false, text: "16€" },
       { challengeId: 22, correct: true, text: "14€" },
-      
       { challengeId: 23, correct: false, text: "300 km" },
       { challengeId: 23, correct: true, text: "375 km" },
       { challengeId: 23, correct: false, text: "400 km" },
-      
       { challengeId: 24, correct: false, text: "6 ouvriers" },
       { challengeId: 24, correct: true, text: "8 ouvriers" },
       { challengeId: 24, correct: false, text: "10 ouvriers" },
-      
-      // Leçon 7 - Géométrie
       { challengeId: 25, correct: false, text: "20 cm²" },
       { challengeId: 25, correct: true, text: "24 cm²" },
       { challengeId: 25, correct: false, text: "28 cm²" },
-      
       { challengeId: 26, correct: false, text: "15 cm" },
       { challengeId: 26, correct: true, text: "20 cm" },
       { challengeId: 26, correct: false, text: "25 cm" },
-      
       { challengeId: 27, correct: false, text: "16 cm²" },
       { challengeId: 27, correct: true, text: "20 cm²" },
       { challengeId: 27, correct: false, text: "24 cm²" },
-      
       { challengeId: 28, correct: false, text: "143.07 cm²" },
       { challengeId: 28, correct: true, text: "153.86 cm²" },
       { challengeId: 28, correct: false, text: "163.28 cm²" },
-      
-      // Leçon 8 - Pythagore
       { challengeId: 29, correct: false, text: "c = 6" },
       { challengeId: 29, correct: true, text: "c = 5" },
       { challengeId: 29, correct: false, text: "c = 7" },
-      
       { challengeId: 30, correct: false, text: "c = 11" },
       { challengeId: 30, correct: true, text: "c = 13" },
       { challengeId: 30, correct: false, text: "c = 15" },
-      
       { challengeId: 31, correct: false, text: "b = 6" },
       { challengeId: 31, correct: true, text: "b = 8" },
       { challengeId: 31, correct: false, text: "b = 10" },
-      
-      // Leçon 9 - Thalès
       { challengeId: 32, correct: false, text: "AE = 5" },
       { challengeId: 32, correct: true, text: "AE = 6" },
       { challengeId: 32, correct: false, text: "AE = 7" },
-      
       { challengeId: 33, correct: true, text: "BC = 6" },
       { challengeId: 33, correct: false, text: "BC = 8" },
-      
-      // Leçon 10 - Statistiques
       { challengeId: 34, correct: false, text: "5" },
       { challengeId: 34, correct: true, text: "6" },
       { challengeId: 34, correct: false, text: "7" },
-      
       { challengeId: 35, correct: false, text: "3" },
       { challengeId: 35, correct: true, text: "5" },
       { challengeId: 35, correct: false, text: "7" },
-      
       { challengeId: 36, correct: false, text: "10" },
       { challengeId: 36, correct: true, text: "12" },
       { challengeId: 36, correct: false, text: "14" },
-      
-      // Leçon 11 - Probabilités
       { challengeId: 37, correct: false, text: "1/3" },
       { challengeId: 37, correct: true, text: "1/6" },
       { challengeId: 37, correct: false, text: "1/12" },
-      
       { challengeId: 38, correct: true, text: "1/13" },
       { challengeId: 38, correct: false, text: "4/52" },
-      
       { challengeId: 39, correct: false, text: "1/2" },
       { challengeId: 39, correct: true, text: "1/4" },
       { challengeId: 39, correct: false, text: "1/3" },
+
+      // ── NOUVELLES OPTIONS - MATHS DIFFICILES ──
+
+      // Challenge 60 - Dérivée de x³ + 2x² - 5x + 3
+      { challengeId: 60, correct: false, text: "3x² + 4x + 5" },
+      { challengeId: 60, correct: true, text: "3x² + 4x - 5" },
+      { challengeId: 60, correct: false, text: "x² + 4x - 5" },
+
+      // Challenge 61 - Dérivée de sin(x) + cos(x)
+      { challengeId: 61, correct: false, text: "-cos(x) + sin(x)" },
+      { challengeId: 61, correct: true, text: "cos(x) - sin(x)" },
+      { challengeId: 61, correct: false, text: "cos(x) + sin(x)" },
+
+      // Challenge 62 - Dérivée de eˣ · x²
+      { challengeId: 62, correct: false, text: "2x · eˣ" },
+      { challengeId: 62, correct: true, text: "eˣ(x² + 2x)" },
+      { challengeId: 62, correct: false, text: "eˣ · x²" },
+
+      // Challenge 63 - Dérivée de ln(x)/x
+      { challengeId: 63, correct: false, text: "1/x²" },
+      { challengeId: 63, correct: true, text: "(1 - ln(x)) / x²" },
+      { challengeId: 63, correct: false, text: "(1 + ln(x)) / x²" },
+
+      // Challenge 64 - Règle chaîne (3x²+1)⁴
+      { challengeId: 64, correct: false, text: "4(3x²+1)³" },
+      { challengeId: 64, correct: true, text: "24x(3x²+1)³" },
+      { challengeId: 64, correct: false, text: "12x(3x²+1)³" },
+
+      // Challenge 65 - sin(2x+1)
+      { challengeId: 65, correct: false, text: "cos(2x+1)" },
+      { challengeId: 65, correct: true, text: "2cos(2x+1)" },
+      { challengeId: 65, correct: false, text: "-2sin(2x+1)" },
+
+      // Challenge 66 - e^(x²-1)
+      { challengeId: 66, correct: false, text: "e^(x²-1)" },
+      { challengeId: 66, correct: true, text: "2x · e^(x²-1)" },
+      { challengeId: 66, correct: false, text: "x² · e^(x²-1)" },
+
+      // Challenge 67 - ln(cos(x))
+      { challengeId: 67, correct: false, text: "1/cos(x)" },
+      { challengeId: 67, correct: true, text: "-tan(x)" },
+      { challengeId: 67, correct: false, text: "tan(x)" },
+
+      // Challenge 68 - ∫₀² x² dx
+      { challengeId: 68, correct: false, text: "4/3" },
+      { challengeId: 68, correct: true, text: "8/3" },
+      { challengeId: 68, correct: false, text: "3" },
+
+      // Challenge 69 - ∫₁³ (2x+1) dx
+      { challengeId: 69, correct: false, text: "10" },
+      { challengeId: 69, correct: true, text: "12" },
+      { challengeId: 69, correct: false, text: "14" },
+
+      // Challenge 70 - ∫₀^π sin(x) dx
+      { challengeId: 70, correct: false, text: "0" },
+      { challengeId: 70, correct: true, text: "2" },
+      { challengeId: 70, correct: false, text: "π" },
+
+      // Challenge 71 - ∫₁^e (1/x) dx
+      { challengeId: 71, correct: false, text: "0" },
+      { challengeId: 71, correct: true, text: "1" },
+      { challengeId: 71, correct: false, text: "e" },
+
+      // Challenge 72 - Primitive de 3x²+2x
+      { challengeId: 72, correct: false, text: "6x + 2" },
+      { challengeId: 72, correct: true, text: "x³ + x²" },
+      { challengeId: 72, correct: false, text: "3x³ + 2x²" },
+
+      // Challenge 73 - Primitive de cos(x)
+      { challengeId: 73, correct: false, text: "-sin(x)" },
+      { challengeId: 73, correct: true, text: "sin(x)" },
+      { challengeId: 73, correct: false, text: "cos(x)" },
+
+      // Challenge 74 - Primitive de 1/(x+1)
+      { challengeId: 74, correct: false, text: "-1/(x+1)²" },
+      { challengeId: 74, correct: true, text: "ln|x+1|" },
+      { challengeId: 74, correct: false, text: "1/(x+1)²" },
+
+      // Challenge 75 - sin²(x) + cos²(x)
+      { challengeId: 75, correct: false, text: "0" },
+      { challengeId: 75, correct: true, text: "1" },
+      { challengeId: 75, correct: false, text: "2" },
+
+      // Challenge 76 - cos(2x) en termes de sin(x)
+      { challengeId: 76, correct: false, text: "1 + 2sin²(x)" },
+      { challengeId: 76, correct: true, text: "1 - 2sin²(x)" },
+      { challengeId: 76, correct: false, text: "2sin²(x)" },
+
+      // Challenge 77 - (1-cos²(x))/sin(x)
+      { challengeId: 77, correct: false, text: "cos(x)" },
+      { challengeId: 77, correct: true, text: "sin(x)" },
+      { challengeId: 77, correct: false, text: "tan(x)" },
+
+      // Challenge 78 - tan²(x) + 1
+      { challengeId: 78, correct: false, text: "cos²(x)" },
+      { challengeId: 78, correct: true, text: "1/cos²(x)" },
+      { challengeId: 78, correct: false, text: "sin²(x)" },
+
+      // Challenge 79 - sin(x) = 1/2
+      { challengeId: 79, correct: false, text: "x = π/6 uniquement" },
+      { challengeId: 79, correct: true, text: "x = π/6 et x = 5π/6" },
+      { challengeId: 79, correct: false, text: "x = π/3 et x = 2π/3" },
+
+      // Challenge 80 - cos(x) = -1
+      { challengeId: 80, correct: false, text: "x = π/2" },
+      { challengeId: 80, correct: true, text: "x = π" },
+      { challengeId: 80, correct: false, text: "x = 3π/2" },
+
+      // Challenge 81 - tan(x) = 1 sur [0,π]
+      { challengeId: 81, correct: false, text: "x = π/3" },
+      { challengeId: 81, correct: true, text: "x = π/4" },
+      { challengeId: 81, correct: false, text: "x = π/6" },
+
+      // Challenge 82 - sin(a+b)
+      { challengeId: 82, correct: false, text: "sin(a)sin(b) + cos(a)cos(b)" },
+      { challengeId: 82, correct: true, text: "sin(a)cos(b) + cos(a)sin(b)" },
+      { challengeId: 82, correct: false, text: "sin(a)cos(b) - cos(a)sin(b)" },
+
+      // Challenge 83 - cos(a-b)
+      { challengeId: 83, correct: false, text: "cos(a)cos(b) - sin(a)sin(b)" },
+      { challengeId: 83, correct: true, text: "cos(a)cos(b) + sin(a)sin(b)" },
+      { challengeId: 83, correct: false, text: "sin(a)sin(b) - cos(a)cos(b)" },
+
+      // Challenge 84 - sin(75°)
+      { challengeId: 84, correct: false, text: "(√6 - √2) / 4" },
+      { challengeId: 84, correct: true, text: "(√6 + √2) / 4" },
+      { challengeId: 84, correct: false, text: "(√3 + 1) / 4" },
+
+      // Challenge 85 - (2+3i)+(1-5i)
+      { challengeId: 85, correct: false, text: "3 + 8i" },
+      { challengeId: 85, correct: true, text: "3 - 2i" },
+      { challengeId: 85, correct: false, text: "1 - 2i" },
+
+      // Challenge 86 - (1+2i)(3-i)
+      { challengeId: 86, correct: false, text: "3 - 2i" },
+      { challengeId: 86, correct: true, text: "5 + 5i" },
+      { challengeId: 86, correct: false, text: "3 + 5i" },
+
+      // Challenge 87 - (2+i)/(1-i)
+      { challengeId: 87, correct: false, text: "1 + i" },
+      { challengeId: 87, correct: true, text: "1/2 + 3i/2" },
+      { challengeId: 87, correct: false, text: "2 - i" },
+
+      // Challenge 88 - Conjugué de 4-7i
+      { challengeId: 88, correct: false, text: "-4 + 7i" },
+      { challengeId: 88, correct: true, text: "4 + 7i" },
+      { challengeId: 88, correct: false, text: "-4 - 7i" },
+
+      // Challenge 89 - Module de 3+4i
+      { challengeId: 89, correct: false, text: "7" },
+      { challengeId: 89, correct: true, text: "5" },
+      { challengeId: 89, correct: false, text: "√7" },
+
+      // Challenge 90 - Module de -5+12i
+      { challengeId: 90, correct: false, text: "7" },
+      { challengeId: 90, correct: true, text: "13" },
+      { challengeId: 90, correct: false, text: "17" },
+
+      // Challenge 91 - Argument de 1+i
+      { challengeId: 91, correct: false, text: "π/6" },
+      { challengeId: 91, correct: true, text: "π/4" },
+      { challengeId: 91, correct: false, text: "π/3" },
+
+      // Challenge 92 - Forme trig de 1+i
+      { challengeId: 92, correct: false, text: "√2 · e^(iπ/6)" },
+      { challengeId: 92, correct: true, text: "√2 · e^(iπ/4)" },
+      { challengeId: 92, correct: false, text: "2 · e^(iπ/4)" },
+
+      // Challenge 93 - z³ pour √2 · e^(iπ/4)
+      { challengeId: 93, correct: false, text: "2√2 · e^(iπ/4)" },
+      { challengeId: 93, correct: true, text: "2√2 · e^(i3π/4)" },
+      { challengeId: 93, correct: false, text: "√2 · e^(i3π/4)" },
+
+      // Challenge 94 - A + B matrices
+      { challengeId: 94, correct: false, text: "[[5,8],[10,12]]" },
+      { challengeId: 94, correct: true, text: "[[6,8],[10,12]]" },
+      { challengeId: 94, correct: false, text: "[[6,8],[9,12]]" },
+
+      // Challenge 95 - A × B matrices
+      { challengeId: 95, correct: false, text: "[[3,6],[13,12]]" },
+      { challengeId: 95, correct: true, text: "[[4,6],[14,12]]" },
+      { challengeId: 95, correct: false, text: "[[4,6],[13,12]]" },
+
+      // Challenge 96 - 2 × matrice
+      { challengeId: 96, correct: false, text: "[[1,3],[2,5]]" },
+      { challengeId: 96, correct: true, text: "[[2,6],[4,10]]" },
+      { challengeId: 96, correct: false, text: "[[2,6],[4,5]]" },
+
+      // Challenge 97 - det([[2,3],[1,4]])
+      { challengeId: 97, correct: false, text: "11" },
+      { challengeId: 97, correct: true, text: "5" },
+      { challengeId: 97, correct: false, text: "8" },
+
+      // Challenge 98 - det([[1,2],[3,4]])
+      { challengeId: 98, correct: false, text: "2" },
+      { challengeId: 98, correct: true, text: "-2" },
+      { challengeId: 98, correct: false, text: "10" },
+
+      // Challenge 99 - Inverse de A
+      { challengeId: 99, correct: false, text: "[[6,-7],[-2,4]] / 10" },
+      { challengeId: 99, correct: true, text: "[[6,-7],[-2,4]] / 10" },
+      { challengeId: 99, correct: false, text: "[[4,-3],[-2,6]] / 10" },
+
+      // Challenge 100 - Gauss 3 inconnues
+      { challengeId: 100, correct: false, text: "x=1, y=2, z=3" },
+      { challengeId: 100, correct: true, text: "x=1, y=2, z=3" },
+      { challengeId: 100, correct: false, text: "x=2, y=1, z=3" },
+
+      // Challenge 101 - Gauss 2 inconnues
+      { challengeId: 101, correct: false, text: "x=0, y=2" },
+      { challengeId: 101, correct: true, text: "x=1, y=2" },
+      { challengeId: 101, correct: false, text: "x=2, y=1" },
     ]);
 
     // ================================================
