@@ -29,6 +29,7 @@ const main = async () => {
       { id: 3, title: "Italian", imageSrc: "/it.svg" },
       { id: 4, title: "French", imageSrc: "/fr.svg" },
       { id: 5, title: "Croatian", imageSrc: "/hr.svg" },
+      { id: 6, title: "Culture Générale", imageSrc: "/culture.svg" }, // NOUVEAU COURS
     ]);
 
     // ================================================
@@ -676,6 +677,279 @@ const main = async () => {
       { challengeId: 58, correct: true, text: "Bok" },
       { challengeId: 58, correct: false, text: "Doviđenja" },
       { challengeId: 58, correct: false, text: "Hvala" },
+    ]);
+
+    // ================================================
+    // 6. CULTURE GÉNÉRALE (Course ID: 6)
+    // ================================================
+
+    await db.insert(schema.units).values([
+      { id: 15, courseId: 6, title: "Géographie", description: "Découvre les merveilles du monde", order: 1 },
+      { id: 16, courseId: 6, title: "Histoire", description: "Les grands événements qui ont façonné notre monde", order: 2 },
+      { id: 17, courseId: 6, title: "Arts & Littérature", description: "Les chefs-d'œuvre de l'humanité", order: 3 },
+      { id: 18, courseId: 6, title: "Sciences & Découvertes", description: "Les avancées qui ont changé notre vie", order: 4 },
+      { id: 19, courseId: 6, title: "Politique & Société", description: "Comprendre le monde d'aujourd'hui", order: 5 },
+      { id: 20, courseId: 6, title: "Mythes & Légendes", description: "Les histoires qui ont traversé les âges", order: 6 },
+    ]);
+
+    await db.insert(schema.lessons).values([
+      // Unité 15 - Géographie
+      { id: 38, unitId: 15, order: 1, title: "Capitales du Monde" },
+      { id: 39, unitId: 15, order: 2, title: "Les Grands Fleuves" },
+      { id: 40, unitId: 15, order: 3, title: "Les Plus Hauts Sommets" },
+      { id: 41, unitId: 15, order: 4, title: "Déserts et Mers" },
+      
+      // Unité 16 - Histoire
+      { id: 42, unitId: 16, order: 1, title: "Grandes Civilisations" },
+      { id: 43, unitId: 16, order: 2, title: "Personnages Historiques" },
+      { id: 44, unitId: 16, order: 3, title: "Dates Clés" },
+      { id: 45, unitId: 16, order: 4, title: "Inventions et Découvertes" },
+      
+      // Unité 17 - Arts & Littérature
+      { id: 46, unitId: 17, order: 1, title: "Peintres Célèbres" },
+      { id: 47, unitId: 17, order: 2, title: "Écrivains et Œuvres" },
+      { id: 48, unitId: 17, order: 3, title: "Musique Classique" },
+      { id: 49, unitId: 17, order: 4, title: "Cinéma et Théâtre" },
+      
+      // Unité 18 - Sciences
+      { id: 50, unitId: 18, order: 1, title: "Physique et Chimie" },
+      { id: 51, unitId: 18, order: 2, title: "Biologie et Médecine" },
+      { id: 52, unitId: 18, order: 3, title: "Astronomie" },
+      { id: 53, unitId: 18, order: 4, title: "Grands Scientifiques" },
+      
+      // Unité 19 - Politique & Société
+      { id: 54, unitId: 19, order: 1, title: "Symboles et Institutions" },
+      { id: 55, unitId: 19, order: 2, title: "Droits et Libertés" },
+      { id: 56, unitId: 19, order: 3, title: "Organisations Internationales" },
+      { id: 57, unitId: 19, order: 4, title: "Grands Discours" },
+      
+      // Unité 20 - Mythes & Légendes
+      { id: 58, unitId: 20, order: 1, title: "Mythologie Grecque" },
+      { id: 59, unitId: 20, order: 2, title: "Mythologie Nordique" },
+      { id: 60, unitId: 20, order: 3, title: "Légendes Médiévales" },
+      { id: 61, unitId: 20, order: 4, title: "Folklore et Traditions" },
+    ]);
+
+    await db.insert(schema.challenges).values([
+      // Unité 15 - Géographie
+      { id: 102, lessonId: 38, type: "SELECT", order: 1, question: "Quelle est la capitale du Japon ?" },
+      { id: 103, lessonId: 38, type: "SELECT", order: 2, question: "Quelle est la capitale du Brésil ?" },
+      { id: 104, lessonId: 38, type: "SELECT", order: 3, question: "Quelle est la capitale de l'Australie ?" },
+      { id: 105, lessonId: 38, type: "SELECT", order: 4, question: "Quelle est la capitale du Canada ?" },
+      { id: 106, lessonId: 39, type: "SELECT", order: 1, question: "Quel est le plus long fleuve du monde ?" },
+      { id: 107, lessonId: 39, type: "SELECT", order: 2, question: "Quel fleuve traverse Paris ?" },
+      { id: 108, lessonId: 39, type: "SELECT", order: 3, question: "Quel est le plus long fleuve d'Europe ?" },
+      { id: 109, lessonId: 40, type: "SELECT", order: 1, question: "Quel est le plus haut sommet du monde ?" },
+      { id: 110, lessonId: 40, type: "SELECT", order: 2, question: "Quel est le plus haut sommet d'Europe ?" },
+      { id: 111, lessonId: 41, type: "SELECT", order: 1, question: "Quel est le plus grand désert du monde (hors polaire) ?" },
+      { id: 112, lessonId: 41, type: "SELECT", order: 2, question: "Quelle mer est la plus salée du monde ?" },
+
+      // Unité 16 - Histoire
+      { id: 113, lessonId: 42, type: "SELECT", order: 1, question: "Quelle civilisation a construit le Machu Picchu ?" },
+      { id: 114, lessonId: 42, type: "SELECT", order: 2, question: "Qui était le premier empereur de Chine ?" },
+      { id: 115, lessonId: 43, type: "SELECT", order: 1, question: "Qui a peint la Joconde ?" },
+      { id: 116, lessonId: 43, type: "SELECT", order: 2, question: "Qui a découvert la pénicilline ?" },
+      { id: 117, lessonId: 44, type: "SELECT", order: 1, question: "En quelle année a débuté la Révolution française ?" },
+      { id: 118, lessonId: 44, type: "SELECT", order: 2, question: "En quelle année l'homme a-t-il marché sur la Lune ?" },
+      { id: 119, lessonId: 45, type: "SELECT", order: 1, question: "Qui a inventé l'imprimerie ?" },
+      { id: 120, lessonId: 45, type: "SELECT", order: 2, question: "Qui a inventé le téléphone ?" },
+
+      // Unité 17 - Arts & Littérature
+      { id: 121, lessonId: 46, type: "SELECT", order: 1, question: "Qui a peint 'La Nuit étoilée' ?" },
+      { id: 122, lessonId: 46, type: "SELECT", order: 2, question: "Qui a peint 'Guernica' ?" },
+      { id: 123, lessonId: 47, type: "SELECT", order: 1, question: "Qui a écrit 'Les Misérables' ?" },
+      { id: 124, lessonId: 47, type: "SELECT", order: 2, question: "Qui a écrit 'Don Quichotte' ?" },
+      { id: 125, lessonId: 48, type: "SELECT", order: 1, question: "Qui a composé la 9ème symphonie ?" },
+      { id: 126, lessonId: 48, type: "SELECT", order: 2, question: "Qui a composé 'Les Quatre Saisons' ?" },
+      { id: 127, lessonId: 49, type: "SELECT", order: 1, question: "Qui a réalisé 'Titanic' ?" },
+      { id: 128, lessonId: 49, type: "SELECT", order: 2, question: "Qui a réalisé 'Pulp Fiction' ?" },
+
+      // Unité 18 - Sciences
+      { id: 129, lessonId: 50, type: "SELECT", order: 1, question: "Qui a découvert la radioactivité ?" },
+      { id: 130, lessonId: 50, type: "SELECT", order: 2, question: "Quelle est la formule chimique de l'eau ?" },
+      { id: 131, lessonId: 51, type: "SELECT", order: 1, question: "Qui a proposé la théorie de l'évolution ?" },
+      { id: 132, lessonId: 51, type: "SELECT", order: 2, question: "Quel organe pompe le sang dans le corps humain ?" },
+      { id: 133, lessonId: 52, type: "SELECT", order: 1, question: "Combien de planètes dans le système solaire ?" },
+      { id: 134, lessonId: 52, type: "SELECT", order: 2, question: "Quelle est la planète la plus proche du Soleil ?" },
+      { id: 135, lessonId: 53, type: "SELECT", order: 1, question: "Qui a formulé la théorie de la relativité ?" },
+      { id: 136, lessonId: 53, type: "SELECT", order: 2, question: "Qui a découvert la gravité ?" },
+
+      // Unité 19 - Politique & Société
+      { id: 137, lessonId: 54, type: "SELECT", order: 1, question: "Que symbolise la colombe ?" },
+      { id: 138, lessonId: 54, type: "SELECT", order: 2, question: "Quel est le symbole de la République française ?" },
+      { id: 139, lessonId: 55, type: "SELECT", order: 1, question: "En quelle année la Déclaration universelle des droits de l'homme a-t-elle été adoptée ?" },
+      { id: 140, lessonId: 56, type: "SELECT", order: 1, question: "Où se trouve le siège de l'ONU ?" },
+      { id: 141, lessonId: 56, type: "SELECT", order: 2, question: "Qu'est-ce que l'OTAN ?" },
+      { id: 142, lessonId: 57, type: "SELECT", order: 1, question: "Qui a prononcé 'I have a dream' ?" },
+
+      // Unité 20 - Mythes & Légendes
+      { id: 143, lessonId: 58, type: "SELECT", order: 1, question: "Qui est le roi des dieux grecs ?" },
+      { id: 144, lessonId: 58, type: "SELECT", order: 2, question: "Qui a accompli les 12 travaux ?" },
+      { id: 145, lessonId: 59, type: "SELECT", order: 1, question: "Qui est le dieu du tonnerre dans la mythologie nordique ?" },
+      { id: 146, lessonId: 59, type: "SELECT", order: 2, question: "Comment s'appelle la fin du monde dans la mythologie nordique ?" },
+      { id: 147, lessonId: 60, type: "SELECT", order: 1, question: "Quel roi Arthur a-t-il combattu ?" },
+      { id: 148, lessonId: 61, type: "SELECT", order: 1, question: "Quelle créature légendaire vit au Loch Ness ?" },
+    ]);
+
+    await db.insert(schema.challengeOptions).values([
+      // Géographie - Capitales
+      { challengeId: 102, correct: false, text: "Séoul" },
+      { challengeId: 102, correct: true, text: "Tokyo" },
+      { challengeId: 102, correct: false, text: "Pékin" },
+      { challengeId: 103, correct: false, text: "Rio de Janeiro" },
+      { challengeId: 103, correct: true, text: "Brasilia" },
+      { challengeId: 103, correct: false, text: "São Paulo" },
+      { challengeId: 104, correct: false, text: "Sydney" },
+      { challengeId: 104, correct: true, text: "Canberra" },
+      { challengeId: 104, correct: false, text: "Melbourne" },
+      { challengeId: 105, correct: false, text: "Toronto" },
+      { challengeId: 105, correct: true, text: "Ottawa" },
+      { challengeId: 105, correct: false, text: "Vancouver" },
+      
+      // Géographie - Fleuves
+      { challengeId: 106, correct: false, text: "Amazone" },
+      { challengeId: 106, correct: true, text: "Nil" },
+      { challengeId: 106, correct: false, text: "Yangtsé" },
+      { challengeId: 107, correct: false, text: "Rhône" },
+      { challengeId: 107, correct: true, text: "Seine" },
+      { challengeId: 107, correct: false, text: "Loire" },
+      { challengeId: 108, correct: false, text: "Rhin" },
+      { challengeId: 108, correct: true, text: "Volga" },
+      { challengeId: 108, correct: false, text: "Danube" },
+
+      // Géographie - Sommets
+      { challengeId: 109, correct: false, text: "K2" },
+      { challengeId: 109, correct: true, text: "Everest" },
+      { challengeId: 109, correct: false, text: "Kangchenjunga" },
+      { challengeId: 110, correct: false, text: "Mont Blanc" },
+      { challengeId: 110, correct: true, text: "Elbrouz" },
+      { challengeId: 110, correct: false, text: "Matterhorn" },
+
+      // Géographie - Déserts et mers
+      { challengeId: 111, correct: false, text: "Gobi" },
+      { challengeId: 111, correct: true, text: "Sahara" },
+      { challengeId: 111, correct: false, text: "Arabique" },
+      { challengeId: 112, correct: false, text: "Mer Rouge" },
+      { challengeId: 112, correct: true, text: "Mer Morte" },
+      { challengeId: 112, correct: false, text: "Mer Méditerranée" },
+
+      // Histoire
+      { challengeId: 113, correct: false, text: "Aztèques" },
+      { challengeId: 113, correct: true, text: "Incas" },
+      { challengeId: 113, correct: false, text: "Mayas" },
+      { challengeId: 114, correct: false, text: "Confucius" },
+      { challengeId: 114, correct: true, text: "Qin Shi Huang" },
+      { challengeId: 114, correct: false, text: "Sun Tzu" },
+      { challengeId: 115, correct: false, text: "Van Gogh" },
+      { challengeId: 115, correct: true, text: "Léonard de Vinci" },
+      { challengeId: 115, correct: false, text: "Michel-Ange" },
+      { challengeId: 116, correct: false, text: "Pasteur" },
+      { challengeId: 116, correct: true, text: "Fleming" },
+      { challengeId: 116, correct: false, text: "Curie" },
+      { challengeId: 117, correct: false, text: "1776" },
+      { challengeId: 117, correct: true, text: "1789" },
+      { challengeId: 117, correct: false, text: "1799" },
+      { challengeId: 118, correct: false, text: "1965" },
+      { challengeId: 118, correct: true, text: "1969" },
+      { challengeId: 118, correct: false, text: "1972" },
+      { challengeId: 119, correct: false, text: "Gutenberg" },
+      { challengeId: 119, correct: true, text: "Gutenberg" },
+      { challengeId: 119, correct: false, text: "Caxton" },
+      { challengeId: 120, correct: false, text: "Edison" },
+      { challengeId: 120, correct: true, text: "Bell" },
+      { challengeId: 120, correct: false, text: "Tesla" },
+
+      // Arts
+      { challengeId: 121, correct: false, text: "Picasso" },
+      { challengeId: 121, correct: true, text: "Van Gogh" },
+      { challengeId: 121, correct: false, text: "Monet" },
+      { challengeId: 122, correct: false, text: "Dalí" },
+      { challengeId: 122, correct: true, text: "Picasso" },
+      { challengeId: 122, correct: false, text: "Miró" },
+      { challengeId: 123, correct: false, text: "Zola" },
+      { challengeId: 123, correct: true, text: "Hugo" },
+      { challengeId: 123, correct: false, text: "Balzac" },
+      { challengeId: 124, correct: false, text: "Cervantes" },
+      { challengeId: 124, correct: true, text: "Cervantes" },
+      { challengeId: 124, correct: false, text: "Lorca" },
+      { challengeId: 125, correct: false, text: "Mozart" },
+      { challengeId: 125, correct: true, text: "Beethoven" },
+      { challengeId: 125, correct: false, text: "Bach" },
+      { challengeId: 126, correct: false, text: "Mozart" },
+      { challengeId: 126, correct: true, text: "Vivaldi" },
+      { challengeId: 126, correct: false, text: "Haendel" },
+      { challengeId: 127, correct: false, text: "Spielberg" },
+      { challengeId: 127, correct: true, text: "Cameron" },
+      { challengeId: 127, correct: false, text: "Nolan" },
+      { challengeId: 128, correct: false, text: "Scorsese" },
+      { challengeId: 128, correct: true, text: "Tarantino" },
+      { challengeId: 128, correct: false, text: "Coppola" },
+
+      // Sciences
+      { challengeId: 129, correct: false, text: "Einstein" },
+      { challengeId: 129, correct: true, text: "Curie" },
+      { challengeId: 129, correct: false, text: "Röntgen" },
+      { challengeId: 130, correct: false, text: "CO2" },
+      { challengeId: 130, correct: true, text: "H2O" },
+      { challengeId: 130, correct: false, text: "O2" },
+      { challengeId: 131, correct: false, text: "Lamarck" },
+      { challengeId: 131, correct: true, text: "Darwin" },
+      { challengeId: 131, correct: false, text: "Mendel" },
+      { challengeId: 132, correct: false, text: "Cerveau" },
+      { challengeId: 132, correct: true, text: "Cœur" },
+      { challengeId: 132, correct: false, text: "Poumons" },
+      { challengeId: 133, correct: false, text: "7" },
+      { challengeId: 133, correct: true, text: "8" },
+      { challengeId: 133, correct: false, text: "9" },
+      { challengeId: 134, correct: false, text: "Vénus" },
+      { challengeId: 134, correct: true, text: "Mercure" },
+      { challengeId: 134, correct: false, text: "Mars" },
+      { challengeId: 135, correct: false, text: "Newton" },
+      { challengeId: 135, correct: true, text: "Einstein" },
+      { challengeId: 135, correct: false, text: "Galilée" },
+      { challengeId: 136, correct: false, text: "Einstein" },
+      { challengeId: 136, correct: true, text: "Newton" },
+      { challengeId: 136, correct: false, text: "Archimède" },
+
+      // Politique & Société
+      { challengeId: 137, correct: false, text: "Liberté" },
+      { challengeId: 137, correct: true, text: "Paix" },
+      { challengeId: 137, correct: false, text: "Espoir" },
+      { challengeId: 138, correct: false, text: "Le Coq" },
+      { challengeId: 138, correct: true, text: "Marianne" },
+      { challengeId: 138, correct: false, text: "Le Phryge" },
+      { challengeId: 139, correct: false, text: "1945" },
+      { challengeId: 139, correct: true, text: "1948" },
+      { challengeId: 139, correct: false, text: "1950" },
+      { challengeId: 140, correct: false, text: "Genève" },
+      { challengeId: 140, correct: true, text: "New York" },
+      { challengeId: 140, correct: false, text: "Paris" },
+      { challengeId: 141, correct: false, text: "Alliance économique" },
+      { challengeId: 141, correct: true, text: "Alliance militaire" },
+      { challengeId: 141, correct: false, text: "Traité de paix" },
+      { challengeId: 142, correct: false, text: "Gandhi" },
+      { challengeId: 142, correct: true, text: "Martin Luther King" },
+      { challengeId: 142, correct: false, text: "Mandela" },
+
+      // Mythologies
+      { challengeId: 143, correct: false, text: "Poséidon" },
+      { challengeId: 143, correct: true, text: "Zeus" },
+      { challengeId: 143, correct: false, text: "Hadès" },
+      { challengeId: 144, correct: false, text: "Achille" },
+      { challengeId: 144, correct: true, text: "Hercule" },
+      { challengeId: 144, correct: false, text: "Persée" },
+      { challengeId: 145, correct: false, text: "Odin" },
+      { challengeId: 145, correct: true, text: "Thor" },
+      { challengeId: 145, correct: false, text: "Loki" },
+      { challengeId: 146, correct: false, text: "Valhalla" },
+      { challengeId: 146, correct: true, text: "Ragnarök" },
+      { challengeId: 146, correct: false, text: "Midgard" },
+      { challengeId: 147, correct: false, text: "Les Normands" },
+      { challengeId: 147, correct: true, text: "Les Saxons" },
+      { challengeId: 147, correct: false, text: "Les Romains" },
+      { challengeId: 148, correct: false, text: "Bigfoot" },
+      { challengeId: 148, correct: true, text: "Monstre du Loch Ness" },
+      { challengeId: 148, correct: false, text: "Yéti" },
     ]);
 
   } catch (error) {
