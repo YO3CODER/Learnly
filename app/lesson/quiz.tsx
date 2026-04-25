@@ -62,7 +62,6 @@ export const Quiz = ({
     return initialPercentage === 100 ? 0 : initialPercentage;
   });
 
-  // Nombre total de questions initiales — ne change jamais, sert de référence pour la progression
   const totalChallenges = initialLessonChallenges.length;
 
   const [challenges, setChallenges] = useState(initialLessonChallenges);
@@ -79,6 +78,12 @@ export const Quiz = ({
 
   const [countdown, setCountdown] = useState<number | null>(null);
   const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Streak : nombre de bonnes réponses consécutives
+  const [streak, setStreak] = useState(0);
+  // Contrôle l'affichage du toast "On a roll!"
+  const [showStreak, setShowStreak] = useState(false);
+  const streakTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
@@ -118,6 +123,13 @@ export const Quiz = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
 
+  // Affiche le toast streak pendant 2.5s puis le cache
+  const triggerStreakToast = () => {
+    setShowStreak(true);
+    if (streakTimeoutRef.current) clearTimeout(streakTimeoutRef.current);
+    streakTimeoutRef.current = setTimeout(() => setShowStreak(false), 2500);
+  };
+
   const onContinue = () => {
     if (!selectedOption) return;
     if (countdown !== null) return;
@@ -142,10 +154,14 @@ export const Quiz = ({
             }
             correctControls.play();
             setStatus("correct");
-
-            // Toujours diviser par totalChallenges pour que la barre
-            // soit cohérente sur tout le parcours (tour initial + retry)
             setPercentage((prev) => Math.min(prev + 100 / totalChallenges, 100));
+
+            // Incrémenter le streak et déclencher le toast à partir de 3
+            setStreak((prev) => {
+              const next = prev + 1;
+              if (next >= 3) triggerStreakToast();
+              return next;
+            });
 
             if (initialPercentage === 100) {
               setHearts((prev) => Math.min(prev + 1, 5));
@@ -163,6 +179,9 @@ export const Quiz = ({
             }
             incorrectControls.play();
             setStatus("wrong");
+            // Réinitialiser le streak sur une mauvaise réponse
+            setStreak(0);
+            setShowStreak(false);
             if (!response?.error) {
               setHearts((prev) => Math.max(prev - 1, 0));
             }
@@ -255,6 +274,30 @@ export const Quiz = ({
         percentage={percentage}
         hasActiveSubscription={!!userSubscription?.isActive}
       />
+
+      {/* Toast "On a roll!" — positionné en haut au centre */}
+      <div
+        className={[
+          "fixed top-6 left-1/2 -translate-x-1/2 z-50",
+          "transition-all duration-500 ease-out",
+          showStreak
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-3 pointer-events-none",
+        ].join(" ")}
+      >
+        <div className="flex items-center gap-x-3 bg-orange-500 text-white px-5 py-3 rounded-2xl shadow-lg shadow-orange-200">
+          {/* Icône flamme en CSS pur */}
+          <span className="text-xl leading-none">🔥</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-orange-100">
+              {streak} in a row
+            </span>
+            <span className="text-base font-extrabold tracking-tight">
+              On a roll!
+            </span>
+          </div>
+        </div>
+      </div>
 
       <div className="flex-1">
         <div className="h-full flex items-center justify-center">
