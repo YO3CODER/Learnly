@@ -79,16 +79,34 @@ export const Quiz = ({
   const [countdown, setCountdown] = useState<number | null>(null);
   const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Streak : nombre de bonnes réponses consécutives
   const [streak, setStreak] = useState(0);
-  // Contrôle l'affichage du toast "On a roll!"
   const [showStreak, setShowStreak] = useState(false);
   const streakTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [slideState, setSlideState] = useState<"idle" | "exit" | "enter">("idle");
+  const slideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
 
-  const onNext = () => setActiveIndex((current) => current + 1);
+  const onNext = () => {
+    setSlideState("exit");
+    slideTimeoutRef.current = setTimeout(() => {
+      setActiveIndex((current) => current + 1);
+      setSlideState("enter");
+      slideTimeoutRef.current = setTimeout(() => {
+        setSlideState("idle");
+      }, 50);
+    }, 250);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (slideTimeoutRef.current) clearTimeout(slideTimeoutRef.current);
+      if (streakTimeoutRef.current) clearTimeout(streakTimeoutRef.current);
+      if (countdownRef.current) clearTimeout(countdownRef.current);
+    };
+  }, []);
 
   const onSelect = (id: number) => {
     if (status !== "none") return;
@@ -123,7 +141,6 @@ export const Quiz = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
 
-  // Affiche le toast streak pendant 2.5s puis le cache
   const triggerStreakToast = () => {
     setShowStreak(true);
     if (streakTimeoutRef.current) clearTimeout(streakTimeoutRef.current);
@@ -156,7 +173,6 @@ export const Quiz = ({
             setStatus("correct");
             setPercentage((prev) => Math.min(prev + 100 / totalChallenges, 100));
 
-            // Incrémenter le streak et déclencher le toast à partir de 3
             setStreak((prev) => {
               const next = prev + 1;
               if (next >= 3) triggerStreakToast();
@@ -179,7 +195,6 @@ export const Quiz = ({
             }
             incorrectControls.play();
             setStatus("wrong");
-            // Réinitialiser le streak sur une mauvaise réponse
             setStreak(0);
             setShowStreak(false);
             if (!response?.error) {
@@ -265,6 +280,13 @@ export const Quiz = ({
   const isFooterDisabled = pending || !selectedOption || countdown !== null;
   const footerLabel = countdown !== null ? `Next in ${countdown}s…` : undefined;
 
+  const slideClasses = [
+    "transition-all duration-300 ease-in-out",
+    slideState === "exit" && "opacity-0 -translate-x-8",
+    slideState === "enter" && "opacity-0 translate-x-8",
+    slideState === "idle" && "opacity-100 translate-x-0",
+  ].filter(Boolean).join(" ");
+
   return (
     <>
       {incorrectAudio}
@@ -275,7 +297,7 @@ export const Quiz = ({
         hasActiveSubscription={!!userSubscription?.isActive}
       />
 
-      {/* Toast "On a roll!" — positionné en haut au centre */}
+      {/* Toast "On a roll!" */}
       <div
         className={[
           "fixed top-6 left-1/2 -translate-x-1/2 z-50",
@@ -286,7 +308,6 @@ export const Quiz = ({
         ].join(" ")}
       >
         <div className="flex items-center gap-x-3 bg-orange-500 text-white px-5 py-3 rounded-2xl shadow-lg shadow-orange-200">
-          {/* Icône flamme en CSS pur */}
           <span className="text-xl leading-none">🔥</span>
           <div className="flex flex-col leading-tight">
             <span className="text-[11px] font-bold uppercase tracking-widest text-orange-100">
@@ -299,42 +320,47 @@ export const Quiz = ({
         </div>
       </div>
 
-      <div className="flex-1">
-        <div className="h-full flex items-center justify-center">
-          <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-10">
+      {/* Zone de contenu scrollable */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="min-h-full flex items-center justify-center py-8">
+          <div className="lg:w-[600px] w-full px-6 lg:px-0 overflow-hidden">
+            <div className={slideClasses}>
+              <div className="flex flex-col gap-y-8">
 
-            {isRetryRound && (
-              <div className="relative overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 px-5 py-3.5">
-                <div className="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-gradient-to-b from-amber-400 to-orange-400" />
-                <div className="flex flex-col gap-y-0.5 pl-2">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-amber-400">
-                    Review Round
-                  </p>
-                  <p className="text-sm font-semibold text-amber-800">
-                    Questions you missed — let&apos;s nail them this time.
-                  </p>
+                {isRetryRound && (
+                  <div className="relative overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 px-5 py-3.5">
+                    <div className="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-gradient-to-b from-amber-400 to-orange-400" />
+                    <div className="flex flex-col gap-y-0.5 pl-2">
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-amber-400">
+                        Review Round
+                      </p>
+                      <p className="text-sm font-semibold text-amber-800">
+                        Questions you missed — let&apos;s nail them this time.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <h1 className="text-lg lg:text-3xl text-center lg:text-start font-extrabold text-slate-800 tracking-tight">
+                  {title}
+                </h1>
+
+                <div>
+                  {challenge.type === "ASSIST" && (
+                    <QuestionBubble question={challenge.question} />
+                  )}
+                  <Challenge
+                    options={options}
+                    onSelect={onSelect}
+                    status={status}
+                    selectedOption={selectedOption}
+                    disabled={pending || countdown !== null}
+                    type={challenge.type}
+                  />
                 </div>
+
               </div>
-            )}
-
-            <h1 className="text-lg lg:text-3xl text-center lg:text-start font-extrabold text-slate-800 tracking-tight">
-              {title}
-            </h1>
-
-            <div>
-              {challenge.type === "ASSIST" && (
-                <QuestionBubble question={challenge.question} />
-              )}
-              <Challenge
-                options={options}
-                onSelect={onSelect}
-                status={status}
-                selectedOption={selectedOption}
-                disabled={pending || countdown !== null}
-                type={challenge.type}
-              />
             </div>
-
           </div>
         </div>
       </div>
