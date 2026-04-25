@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import Confetti from "react-confetti";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { useAudio, useWindowSize, useMount } from "react-use";
 
 import { reduceHearts } from "@/actions/user-progress";
@@ -61,7 +61,14 @@ export const Quiz = ({
   const [percentage, setPercentage] = useState(() => {
     return initialPercentage === 100 ? 0 : initialPercentage;
   });
-  const [challenges] = useState(initialLessonChallenges);
+
+  // Nombre total de questions initiales — ne change jamais, sert de référence pour la progression
+  const totalChallenges = initialLessonChallenges.length;
+
+  const [challenges, setChallenges] = useState(initialLessonChallenges);
+  const [failedChallenges, setFailedChallenges] = useState<typeof initialLessonChallenges>([]);
+  const [isRetryRound, setIsRetryRound] = useState(false);
+
   const [activeIndex, setActiveIndex] = useState(() => {
     const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
     return uncompletedIndex === -1 ? 0 : uncompletedIndex;
@@ -69,6 +76,9 @@ export const Quiz = ({
 
   const [selectedOption, setSelectedOption] = useState<number>();
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
+
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
@@ -80,14 +90,37 @@ export const Quiz = ({
     setSelectedOption(id);
   };
 
-  const onContinue = () => {
-    if (!selectedOption) return;
+  const startWrongCountdown = () => setCountdown(3);
 
-    if (status === "wrong") {
+  useEffect(() => {
+    if (countdown === null) return;
+
+    if (countdown === 0) {
+      setFailedChallenges((prev) => {
+        const alreadyFailed = prev.some((c) => c.id === challenge.id);
+        if (alreadyFailed) return prev;
+        return [...prev, challenge];
+      });
+      onNext();
       setStatus("none");
       setSelectedOption(undefined);
+      setCountdown(null);
       return;
     }
+
+    countdownRef.current = setTimeout(() => {
+      setCountdown((prev) => (prev !== null ? prev - 1 : null));
+    }, 1000);
+
+    return () => {
+      if (countdownRef.current) clearTimeout(countdownRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countdown]);
+
+  const onContinue = () => {
+    if (!selectedOption) return;
+    if (countdown !== null) return;
 
     if (status === "correct") {
       onNext();
@@ -109,7 +142,11 @@ export const Quiz = ({
             }
             correctControls.play();
             setStatus("correct");
-            setPercentage((prev) => prev + 100 / challenges.length);
+
+            // Toujours diviser par totalChallenges pour que la barre
+            // soit cohérente sur tout le parcours (tour initial + retry)
+            setPercentage((prev) => Math.min(prev + 100 / totalChallenges, 100));
+
             if (initialPercentage === 100) {
               setHearts((prev) => Math.min(prev + 1, 5));
             }
@@ -129,13 +166,23 @@ export const Quiz = ({
             if (!response?.error) {
               setHearts((prev) => Math.max(prev - 1, 0));
             }
+            startWrongCountdown();
           })
           .catch(() => toast.error("Something went wrong. Please try again."));
       });
     }
   };
 
-  /* ── Finish screen ── */
+  /* ── Fin du tour : relancer avec les questions ratées ── */
+  if (!challenge && failedChallenges.length > 0) {
+    setChallenges(failedChallenges);
+    setFailedChallenges([]);
+    setActiveIndex(0);
+    setIsRetryRound(true);
+    return null;
+  }
+
+  /* ── Écran de fin ── */
   if (!challenge) {
     return (
       <>
@@ -148,8 +195,6 @@ export const Quiz = ({
           tweenDuration={10000}
         />
         <div className="flex flex-col gap-y-6 lg:gap-y-10 max-w-lg mx-auto text-center items-center justify-center h-full px-6">
-
-          {/* Finish illustration with glow */}
           <div className="relative">
             <div className="absolute inset-0 bg-blue-200/40 rounded-full blur-2xl scale-150" />
             <Image
@@ -167,8 +212,6 @@ export const Quiz = ({
               width={60}
             />
           </div>
-
-          {/* Message */}
           <div className="space-y-2">
             <p className="text-xs font-semibold tracking-widest uppercase text-blue-400">
               Lesson Complete
@@ -181,14 +224,11 @@ export const Quiz = ({
               </span>
             </h1>
           </div>
-
-          {/* Result cards */}
           <div className="flex items-center gap-x-4 w-full">
-            <ResultCard variant="points" value={challenges.length * 10} />
+            <ResultCard variant="points" value={totalChallenges * 10} />
             <ResultCard variant="hearts" value={hearts} />
           </div>
         </div>
-
         <Footer
           lessonId={lessonId}
           status="completed"
@@ -202,6 +242,9 @@ export const Quiz = ({
   const title = challenge.type === "ASSIST"
     ? "Select the correct meaning"
     : challenge.question;
+
+  const isFooterDisabled = pending || !selectedOption || countdown !== null;
+  const footerLabel = countdown !== null ? `Next in ${countdown}s…` : undefined;
 
   return (
     <>
@@ -217,7 +260,20 @@ export const Quiz = ({
         <div className="h-full flex items-center justify-center">
           <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-10">
 
-            {/* Question title */}
+            {isRetryRound && (
+              <div className="relative overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 px-5 py-3.5">
+                <div className="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-gradient-to-b from-amber-400 to-orange-400" />
+                <div className="flex flex-col gap-y-0.5 pl-2">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-amber-400">
+                    Review Round
+                  </p>
+                  <p className="text-sm font-semibold text-amber-800">
+                    Questions you missed — let&apos;s nail them this time.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <h1 className="text-lg lg:text-3xl text-center lg:text-start font-extrabold text-slate-800 tracking-tight">
               {title}
             </h1>
@@ -231,7 +287,7 @@ export const Quiz = ({
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
-                disabled={pending}
+                disabled={pending || countdown !== null}
                 type={challenge.type}
               />
             </div>
@@ -241,9 +297,10 @@ export const Quiz = ({
       </div>
 
       <Footer
-        disabled={pending || !selectedOption}
+        disabled={isFooterDisabled}
         status={status}
         onCheck={onContinue}
+        label={footerLabel}
       />
     </>
   );
