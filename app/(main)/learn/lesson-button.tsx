@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Check, Crown, Star } from "lucide-react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
@@ -16,6 +17,27 @@ type Props = {
   locked?: boolean;
   current?: boolean;
   percentage: number;
+  unitColor: string;
+  isLastLesson: boolean;
+  unitId: number;
+};
+
+const colorMap: Record<string, {
+  bg: string;
+  hover: string;
+  border: string;
+  shadow: string;
+  glow: string;
+  progress: string[];
+}> = {
+  blue:   { bg: "!bg-blue-500",   hover: "hover:!bg-blue-600",   border: "!border-b-blue-700",   shadow: "shadow-blue-200",   glow: "bg-blue-300/40",   progress: ["#3b82f6", "#6366f1"] },
+  purple: { bg: "!bg-purple-500", hover: "hover:!bg-purple-600", border: "!border-b-purple-700", shadow: "shadow-purple-200", glow: "bg-purple-300/40", progress: ["#a855f7", "#8b5cf6"] },
+  green:  { bg: "!bg-green-500",  hover: "hover:!bg-green-600",  border: "!border-b-green-700",  shadow: "shadow-green-200",  glow: "bg-green-300/40",  progress: ["#22c55e", "#16a34a"] },
+  orange: { bg: "!bg-orange-500", hover: "hover:!bg-orange-600", border: "!border-b-orange-700", shadow: "shadow-orange-200", glow: "bg-orange-300/40", progress: ["#f97316", "#ea580c"] },
+  pink:   { bg: "!bg-pink-500",   hover: "hover:!bg-pink-600",   border: "!border-b-pink-700",   shadow: "shadow-pink-200",   glow: "bg-pink-300/40",   progress: ["#ec4899", "#db2777"] },
+  indigo: { bg: "!bg-indigo-500", hover: "hover:!bg-indigo-600", border: "!border-b-indigo-700", shadow: "shadow-indigo-200", glow: "bg-indigo-300/40", progress: ["#6366f1", "#4f46e5"] },
+  teal:   { bg: "!bg-teal-500",   hover: "hover:!bg-teal-600",   border: "!border-b-teal-700",   shadow: "shadow-teal-200",   glow: "bg-teal-300/40",   progress: ["#14b8a6", "#0d9488"] },
+  red:    { bg: "!bg-red-500",    hover: "hover:!bg-red-600",    border: "!border-b-red-700",    shadow: "shadow-red-200",    glow: "bg-red-300/40",    progress: ["#ef4444", "#dc2626"] },
 };
 
 export const LessonButton = ({
@@ -24,7 +46,10 @@ export const LessonButton = ({
   totalCount,
   locked,
   current,
-  percentage
+  percentage,
+  unitColor,
+  isLastLesson,
+  unitId,
 }: Props) => {
   const cycleLength = 8;
   const cycleIndex = index % cycleLength;
@@ -38,12 +63,14 @@ export const LessonButton = ({
   const rightPosition = indentationLevel * 40;
 
   const isFirst = index === 0;
-  const isLast = index === totalCount;
   const isCompleted = !current && !locked;
   const isPerfect = isCompleted && percentage === 100;
+  const isGolden = isLastLesson;
 
-  const Icon = isCompleted ? Check : isLast ? Crown : Star;
+  const Icon = isLastLesson ? Crown : isCompleted ? Check : Star;
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
+
+  const colors = colorMap[unitColor] || colorMap.blue;
 
   return (
     <Link
@@ -65,20 +92,15 @@ export const LessonButton = ({
       >
         {current ? (
           <div className="h-[102px] w-[102px] relative">
-            {/* Badge Start */}
-            <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10
-              px-3 py-1.5 rounded-xl
-              bg-gradient-to-r from-blue-500 to-indigo-500
-              text-white text-xs font-extrabold uppercase tracking-widest
-              shadow-lg shadow-blue-200
-              animate-[bounce_1s_ease-in-out_3] whitespace-nowrap"
+
+            {/* Badge COMMENCER en bas */}
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-10
+              px-4 py-2 rounded-xl
+              bg-white border-2 border-b-4 border-slate-200
+              text-slate-700 text-xs font-extrabold uppercase tracking-widest
+              shadow-lg whitespace-nowrap"
             >
-              Start
-              <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2
-                w-0 h-0
-                border-x-[6px] border-x-transparent
-                border-t-[6px] border-t-blue-500"
-              />
+              Commencer
             </div>
 
             <CircularProgressbarWithChildren
@@ -91,8 +113,8 @@ export const LessonButton = ({
               <svg style={{ height: 0, width: 0, position: "absolute" }}>
                 <defs>
                   <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#6366f1" />
-                    <stop offset="100%" stopColor="#8b5cf6" />
+                    <stop offset="0%" stopColor={colors.progress[0]} />
+                    <stop offset="100%" stopColor={colors.progress[1]} />
                   </linearGradient>
                 </defs>
               </svg>
@@ -103,36 +125,23 @@ export const LessonButton = ({
                 className={cn(
                   "h-[70px] w-[70px] border-b-[6px] transition-all duration-300 active:scale-95",
                   "relative overflow-hidden group",
-                  !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-lg shadow-blue-200",
+                  !locked && `${colors.bg} ${colors.hover} ${colors.border} shadow-lg ${colors.shadow}`,
                 )}
               >
-                {/* Brillance fixe */}
                 <div className="absolute inset-0 pointer-events-none rounded-full overflow-hidden">
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/30 rounded-full blur-sm" />
                   <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/25 to-transparent rounded-t-full" />
                 </div>
-
-                {/* Shimmer étoile automatique toutes les 3s */}
-                <div className="absolute inset-0 pointer-events-none rounded-full overflow-hidden">
-                  <div className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite]
-                    bg-[conic-gradient(from_0deg,transparent_0%,white_10%,transparent_20%)]
-                    opacity-0"
-                    style={{ animationDelay: `${index * 400}ms` }}
-                  />
-                </div>
-
-                {/* Étoiles scintillantes */}
                 <div className="absolute inset-0 pointer-events-none">
-                  <span className="absolute top-1 right-2 text-white/80 text-[8px]
-                    animate-[twinkle_3s_ease-in-out_infinite]"
+                  <span
+                    className="absolute top-1 right-2 text-white/80 text-[8px] animate-[twinkle_3s_ease-in-out_infinite]"
                     style={{ animationDelay: `${index * 400}ms` }}
                   >✦</span>
-                  <span className="absolute bottom-2 left-1 text-white/60 text-[6px]
-                    animate-[twinkle_3s_ease-in-out_infinite]"
+                  <span
+                    className="absolute bottom-2 left-1 text-white/60 text-[6px] animate-[twinkle_3s_ease-in-out_infinite]"
                     style={{ animationDelay: `${index * 400 + 500}ms` }}
                   >✦</span>
                 </div>
-
                 <Icon className="h-9 w-9 fill-white text-white relative z-10" />
               </Button>
             </CircularProgressbarWithChildren>
@@ -140,16 +149,17 @@ export const LessonButton = ({
 
         ) : (
           <div className="relative group">
+
             {/* Halo hover */}
             {!locked && (
               <div className={cn(
                 "absolute inset-0 rounded-full blur-md scale-125 opacity-0 group-hover:opacity-100 transition-all duration-500",
-                isPerfect ? "bg-yellow-300/50" : "bg-blue-300/40"
+                isGolden ? "bg-yellow-300/50" : colors.glow
               )} />
             )}
 
             {/* Badge Perfect */}
-            {isPerfect && (
+            {isPerfect && !isGolden && (
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10
                 px-2 py-0.5 rounded-full
                 bg-gradient-to-r from-yellow-400 to-amber-400
@@ -166,33 +176,17 @@ export const LessonButton = ({
               className={cn(
                 "relative h-[70px] w-[70px] border-b-[6px] overflow-hidden transition-all duration-300",
                 "hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0",
-                !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-md shadow-blue-200",
-                isCompleted && !isPerfect && "!bg-blue-400 !border-b-blue-600",
-                isPerfect && "!bg-gradient-to-br !from-yellow-400 !to-amber-500 !border-b-amber-600 shadow-md shadow-amber-200",
+                isGolden && !locked && "!bg-gradient-to-br !from-yellow-400 !to-amber-500 !border-b-amber-600 shadow-md shadow-amber-200",
+                !isGolden && !locked && `${colors.bg} ${colors.hover} ${colors.border} shadow-md ${colors.shadow}`,
                 locked && "opacity-60",
               )}
             >
-              {/* Brillance fixe */}
               {!locked && (
                 <div className="absolute inset-0 pointer-events-none rounded-full overflow-hidden">
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/30 rounded-full blur-sm" />
                   <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/25 to-transparent rounded-t-full" />
                 </div>
               )}
-
-              {/* Shimmer étoile automatique toutes les 3s */}
-              {!locked && (
-                <div className="absolute inset-0 pointer-events-none rounded-full overflow-hidden">
-                  <div
-                    className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite]
-                      bg-[conic-gradient(from_0deg,transparent_0%,white_10%,transparent_20%)]
-                      opacity-0"
-                    style={{ animationDelay: `${index * 400}ms` }}
-                  />
-                </div>
-              )}
-
-              {/* Étoiles scintillantes automatiques */}
               {!locked && (
                 <div className="absolute inset-0 pointer-events-none">
                   <span
@@ -209,14 +203,13 @@ export const LessonButton = ({
                   >✧</span>
                 </div>
               )}
-
               <Icon
                 className={cn(
                   "h-9 w-9 relative z-10 transition-transform duration-300 group-hover:scale-110",
                   locked
                     ? "fill-neutral-300 text-neutral-300 stroke-neutral-300"
                     : "fill-white text-white drop-shadow-sm",
-                  isCompleted && "fill-none stroke-white stroke-[4]",
+                  isCompleted && !isGolden && "fill-none stroke-white stroke-[4]",
                 )}
               />
             </Button>

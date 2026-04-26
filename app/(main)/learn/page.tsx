@@ -5,7 +5,6 @@ import { Quests } from "@/components/quests";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { StickyWrapper } from "@/components/sticky-wrapper";
-
 import { lessons, units as unitsSchema } from "@/db/schema";
 import { 
   getCourseProgress, 
@@ -18,6 +17,7 @@ import {
 import { Unit } from "./unit";
 import { Header } from "./header";
 import { StickyUnitBanner } from "./sticky-unit-banner";
+import { UnitSeparator } from "./unit-separator";
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
@@ -65,7 +65,6 @@ const LearnPage = async () => {
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />
 
-        {/* Banner sticky */}
         <StickyUnitBanner
           units={units.map((unit, index) => ({
             id: unit.id,
@@ -76,7 +75,7 @@ const LearnPage = async () => {
         />
 
         {units.map((unit, index) => (
-          <div key={unit.id} className="mb-10">
+          <div key={unit.id}>
             <Unit
               id={unit.id}
               order={unit.order}
@@ -88,7 +87,15 @@ const LearnPage = async () => {
               } | undefined}
               activeLessonPercentage={lessonPercentage}
               index={index}
+              isLast={index === units.length - 1}
             />
+
+            {index !== units.length - 1 && (
+              <UnitSeparator
+                nextUnitTitle={units[index + 1]?.title}
+                unitIndex={index}
+              />
+            )}
           </div>
         ))}
       </FeedWrapper>
