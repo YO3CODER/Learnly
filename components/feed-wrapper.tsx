@@ -2,11 +2,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const FeedWrapper = ({
-  children
-}: Props) => {
+export const FeedWrapper = ({ children }: Props) => {
   return (
-    <div className="flex-1 relative top-0 pb-10">
+    <div className="flex-1 relative top-0 pb-10 pt-2">
       {children}
     </div>
   );

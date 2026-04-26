@@ -1,12 +1,12 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -74,15 +74,37 @@ const config = {
           "75%":  { transform: "scale(1.25)" },
           "100%": { transform: "scale(1)" },
         },
+        "bounce-points": {
+          "0%":   { transform: "scale(1) translateY(0)" },
+          "30%":  { transform: "scale(1.4) translateY(-6px)" },
+          "50%":  { transform: "scale(0.95) translateY(0)" },
+          "70%":  { transform: "scale(1.2) translateY(-3px)" },
+          "100%": { transform: "scale(1) translateY(0)" },
+        },
+        shimmer: {
+          "0%":   { opacity: "0", transform: "rotate(0deg)" },
+          "20%":  { opacity: "0.6", transform: "rotate(180deg)" },
+          "40%":  { opacity: "0", transform: "rotate(360deg)" },
+          "100%": { opacity: "0", transform: "rotate(360deg)" },
+        },
+        twinkle: {
+          "0%":   { opacity: "0", transform: "scale(0)" },
+          "20%":  { opacity: "1", transform: "scale(1.2)" },
+          "40%":  { opacity: "0", transform: "scale(0)" },
+          "100%": { opacity: "0", transform: "scale(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "heartbeat": "heartbeat 0.6s ease-in-out",
+        "bounce-points": "bounce-points 0.6s ease-in-out",
+        "shimmer": "shimmer 3s ease-in-out infinite",
+        "twinkle": "twinkle 3s ease-in-out infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

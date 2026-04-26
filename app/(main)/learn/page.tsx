@@ -5,6 +5,7 @@ import { Quests } from "@/components/quests";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { StickyWrapper } from "@/components/sticky-wrapper";
+
 import { lessons, units as unitsSchema } from "@/db/schema";
 import { 
   getCourseProgress, 
@@ -16,6 +17,7 @@ import {
 
 import { Unit } from "./unit";
 import { Header } from "./header";
+import { StickyUnitBanner } from "./sticky-unit-banner";
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
@@ -57,14 +59,23 @@ const LearnPage = async () => {
           points={userProgress.points}
           hasActiveSubscription={isPro}
         />
-        {!isPro && (
-          <Promo />
-        )}
+        {!isPro && <Promo />}
         <Quests points={userProgress.points} />
       </StickyWrapper>
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />
-        {units.map((unit) => (
+
+        {/* Banner sticky */}
+        <StickyUnitBanner
+          units={units.map((unit, index) => ({
+            id: unit.id,
+            title: unit.title,
+            description: unit.description,
+            color: ["blue","purple","green","orange","pink","indigo","teal","red"][index % 8],
+          }))}
+        />
+
+        {units.map((unit, index) => (
           <div key={unit.id} className="mb-10">
             <Unit
               id={unit.id}
@@ -76,6 +87,7 @@ const LearnPage = async () => {
                 unit: typeof unitsSchema.$inferSelect;
               } | undefined}
               activeLessonPercentage={lessonPercentage}
+              index={index}
             />
           </div>
         ))}
@@ -83,5 +95,5 @@ const LearnPage = async () => {
     </div>
   );
 };
- 
+
 export default LearnPage;
