@@ -31,12 +31,7 @@ export const MobileHeader = ({
         <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
           <Image src="/mascot.svg" height={32} width={32} alt="Mascot" />
         </div>
-        <span className="font-extrabold tracking-tight
-          bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent
-          transition-all duration-200 group-hover:tracking-wide"
-        >
-          Learnly
-        </span>
+        
       </Link>
 
       {/* Divider */}
