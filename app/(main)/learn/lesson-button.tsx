@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check, Crown, Star } from "lucide-react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,8 @@ export const LessonButton = ({
   current,
   percentage
 }: Props) => {
+  const [isVibrating, setIsVibrating] = useState(false);
+
   const cycleLength = 8;
   const cycleIndex = index % cycleLength;
 
@@ -45,11 +48,28 @@ export const LessonButton = ({
   const Icon = isCompleted ? Check : isLast ? Crown : Star;
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (locked) {
+      e.preventDefault();
+      return;
+    }
+    
+    // Déclencher l'animation de vibration
+    setIsVibrating(true);
+    setTimeout(() => setIsVibrating(false), 300);
+    
+    // Vibration native si supportée (mobile)
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(50);
+    }
+  };
+
   return (
     <Link
       href={href}
       aria-disabled={locked}
       style={{ pointerEvents: locked ? "none" : "auto" }}
+      onClick={handleClick}
     >
       <div
         className="relative"
@@ -102,6 +122,7 @@ export const LessonButton = ({
                 className={cn(
                   "h-[70px] w-[70px] border-b-[6px] transition-all duration-300 active:scale-95",
                   !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-lg shadow-blue-100",
+                  isVibrating && "animate-[shake_0.3s_ease-in-out_0s_2]"
                 )}
               >
                 <Icon className="h-9 w-9 fill-white text-white" />
@@ -140,6 +161,7 @@ export const LessonButton = ({
                 !locked && "!bg-blue-500 hover:!bg-blue-600 !border-b-blue-700 shadow-md shadow-blue-100",
                 isCompleted && !isPerfect && "!bg-blue-400 !border-b-blue-600",
                 isPerfect && "!bg-gradient-to-br !from-yellow-400 !to-amber-500 !border-b-amber-600 shadow-md shadow-amber-100",
+                isVibrating && "animate-[shake_0.3s_ease-in-out_0s_2]"
               )}
             >
               <Icon
@@ -155,6 +177,14 @@ export const LessonButton = ({
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-3px); }
+          75% { transform: translateX(3px); }
+        }
+      `}</style>
     </Link>
   );
 };
