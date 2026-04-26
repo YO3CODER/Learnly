@@ -100,7 +100,7 @@ export const LessonButton = ({
               text-slate-700 text-xs font-extrabold uppercase tracking-widest
               shadow-lg whitespace-nowrap"
             >
-              Commencer
+              Start
             </div>
 
             <CircularProgressbarWithChildren
