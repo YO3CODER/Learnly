@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NotebookText } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -60,7 +60,7 @@ export const UnitBanner = ({
 
   return (
     <div
-      className={`w-full rounded-2xl p-6 flex items-center justify-between
+      className={`w-full rounded-2xl px-5 py-4 lg:py-5 flex items-center justify-between
       bg-gradient-to-r ${getGradientColors()}
       border-2 border-b-4 ${getBorderColor()}
       shadow-lg ${getShadowColor()}
@@ -71,33 +71,34 @@ export const UnitBanner = ({
       <div className="absolute -bottom-8 right-24 w-24 h-24 rounded-full bg-white/10 blur-sm" />
 
       {/* Text */}
-      <div className="space-y-1.5 relative z-10">
-        <p className="text-white/80 text-xs font-semibold tracking-widest uppercase">
-          Current Unit
-        </p>
-        <h3 className="text-2xl font-extrabold text-white tracking-tight drop-shadow-sm">
+      <div className="relative z-10 space-y-0.5">
+        <h3 className="text-xl font-extrabold text-white tracking-tight drop-shadow-sm">
           {title}
         </h3>
-        <p className="text-white/90 text-sm font-medium">{description}</p>
+        {/* Description visible uniquement en grand écran */}
+        <p className="hidden lg:block text-white/80 text-sm font-medium">
+          {description}
+        </p>
       </div>
+
+      {/* Séparateur vertical */}
+      <div className="w-px h-8 bg-white/30 mx-4 relative z-10 shrink-0" />
 
       {/* CTA */}
       <Link href="/lesson" className="relative z-10">
         <Button
           size="default"
           variant="secondary"
-          className="flex items-center gap-x-1.5
+          className="flex items-center justify-center
             bg-white hover:bg-white/90
-            text-slate-700 font-bold text-sm
+            text-slate-700
             border-2 border-b-4 border-slate-200
             rounded-xl
             transition-all duration-200
             shadow-md active:scale-95 active:border-b-2
-            px-4 py-2
-            h-auto"
+            w-10 h-10 p-0"
         >
-          <NotebookText className="h-4 w-4" />
-          Continue
+          <BookOpen className="h-5 w-5" />
         </Button>
       </Link>
     </div>
