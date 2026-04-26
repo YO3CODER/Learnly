@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { InfinityIcon } from "lucide-react";
+import { useState } from "react";
 
 import { courses } from "@/db/schema";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   activeCourse: typeof courses.$inferSelect;
@@ -18,6 +22,15 @@ export const UserProgress = ({
   hearts, 
   hasActiveSubscription
 }: Props) => {
+  const [heartBeating, setHeartBeating] = useState(false);
+
+  if (!activeCourse) return null;
+
+  const handleHeartClick = () => {
+    setHeartBeating(true);
+    setTimeout(() => setHeartBeating(false), 600);
+  };
+
   return (
     <div className="flex items-center justify-between gap-x-2 w-full">
       <Link href="/courses">
@@ -37,9 +50,14 @@ export const UserProgress = ({
           {points}
         </Button>
       </Link>
-      <Link href="/shop">
+      <Link href="/shop" onClick={handleHeartClick}>
         <Button variant="ghost" className="text-rose-500">
-          <Image src="/heart.svg" height={22} width={22} alt="Hearts" className="mr-2" />
+          <div className={cn(
+            "mr-2",
+            heartBeating && "animate-heartbeat"
+          )}>
+            <Image src="/heart.svg" height={22} width={22} alt="Hearts" />
+          </div>
           {hasActiveSubscription 
             ? <InfinityIcon className="h-4 w-4 stroke-[3]" /> 
             : hearts

@@ -11,8 +11,8 @@ export const MobileSidebar = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 transition-colors duration-200 backdrop-blur-sm">
-          <Menu className="text-white w-5 h-5" />
+        <button className="flex items-center justify-center w-9 h-9 rounded-xl hover:bg-slate-100 transition-colors duration-200">
+          <Menu className="text-slate-600 w-5 h-5" />
         </button>
       </SheetTrigger>
       <SheetContent
